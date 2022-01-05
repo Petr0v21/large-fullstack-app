@@ -35,14 +35,15 @@ const config = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: "favicon1.png",
-          to: path.resolve(__dirname, "..", "dist"),
+          from: "static",
+          to: path.resolve(__dirname, "..", "dist", "static"),
         },
       ],
     }),
     new MiniCssExtractPlugin({
       filename: "[name].css",
     }),
+    new CleanWebpackPlugin(),
   ],
   module: {
     rules: [
