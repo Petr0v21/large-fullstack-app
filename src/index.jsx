@@ -1,14 +1,10 @@
-import "./styles/main.css";
-import "./styles/less.less";
 import React from "react";
-import { render } from "react-dom";
+import ReactDOM from "react-dom";
+import App from "./App/index";
 
-const App = () => {
-  return (
-    <div className="box">
-      <h2>Yello Im React</h2>
-    </div>
-  );
-};
-
-render(<App />, document.getElementById("app"));
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById("app")
+);
