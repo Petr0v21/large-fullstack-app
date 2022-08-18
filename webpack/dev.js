@@ -9,16 +9,16 @@ const src = path.resolve(__dirname, "..", "src");
 const config = {
   context: src,
   mode: "development",
-  entry: ["@babel/polyfill", "./index.jsx"],
+  entry: ["@babel/polyfill", "./index.tsx"],
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "..", "dist"),
   },
   resolve: {
-    extensions: [".js", ".jsx", ".json"],
-    //    alias: {
-    //        '@': path.resolve(__dirname, 'src')
-    //    }
+    // alias: {
+    //   "@": path.resolve(__dirname, "src/stores"),
+    // },
+    extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
   },
   optimization: {
     splitChunks: {
@@ -60,10 +60,6 @@ const config = {
         use: ["file-loader"],
       },
       {
-        test: /\.less$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "less-loader"],
-      },
-      {
         test: /\.m?js$/,
         exclude: /node_modules/,
         use: {
@@ -86,13 +82,16 @@ const config = {
         },
       },
       {
-        test: /\.jsx$/,
+        test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
           options: {
-            presets: ["@babel/preset-env", "@babel/preset-react"],
-            plugins: ["@babel/plugin-proposal-class-properties"],
+            presets: [
+              "@babel/preset-env",
+              "@babel/preset-react",
+              "@babel/preset-typescript",
+            ],
           },
         },
       },
