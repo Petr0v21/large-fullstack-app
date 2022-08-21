@@ -8,6 +8,7 @@ class AuthStore {
   code = "";
   codeHashed = "";
   id = "";
+  token = "";
   constructor() {
     makeAutoObservable(this);
   }
@@ -40,16 +41,21 @@ class AuthStore {
 
   async logIn() {
     try {
-      console.log(this.user);
-      const str = JSON.stringify(this.user);
-      console.log(str);
-      const data = await fetch("http://localhost:5000/api/auth/login", {
+      await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(this.user),
-      });
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+          this.token = data.token;
+          this.id = data.userId;
+        });
     } catch (e) {
       throw e;
     }

@@ -69,11 +69,10 @@ router.post(
           .status(400)
           .json({ message: "Неверный пароль, попробуйте снова" });
       }
-      console.log(process.env.jwtSecret);
       const token = jwt.sign({ userId: user.id }, process.env.jwtSecret, {
         expiresIn: "1h",
       });
-      res.json({ token, userId: user.id });
+      res.json({ token, userId: user._id });
     } catch (e) {
       throw e;
     }

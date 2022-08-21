@@ -7,7 +7,7 @@ const proxy = httpProxy
     target: "http://localhost:4200",
     // could be an IP address target: 'https://XX.XX.XXX.XXX/',
   })
-  .listen(3500, () => console.log("Proxy running on port 3500"));
+  .listen(3600, () => console.log("Proxy running on port 3600"));
 
 // Intercepts the request
 proxy.on("proxyReq", function (proxyReq, req, res, options) {
@@ -15,7 +15,7 @@ proxy.on("proxyReq", function (proxyReq, req, res, options) {
   // Set the headers of the intercepted request
   proxyReq.setHeader("Origin", "http://localhost:5000");
   // remove any headers you want
-  // proxyReq.removeHeader('authorization');
+  // proxyReq.removeHeader("authorization");
   res.oldWriteHead = res.writeHead;
   res.writeHead = function (statusCode, headers) {
     res.setHeader("Access-Control-Allow-Origin", "*");
