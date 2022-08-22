@@ -2,14 +2,14 @@ import { makeAutoObservable } from "mobx";
 
 class AuthStore {
   post = {
-    title: "The Best Worker",
-    description: "It`s honestly",
+    title: "",
+    description: "",
   };
   updatedPost = {
     title: "The Best Worker",
     description: "It`s honestly",
   };
-  files = ["selected images"];
+  files: any[] = [];
 
   url = {
     images: [],
@@ -21,8 +21,8 @@ class AuthStore {
     makeAutoObservable(this);
   }
 
-  addField(value: string, name: string) {
-    this.post = { ...this.post, [name]: value };
+  addField(event: any) {
+    this.post = { ...this.post, [event.target.name]: event.target.value };
   }
 
   addImage(event: any) {
@@ -32,6 +32,10 @@ class AuthStore {
     console.log(this.files);
   }
 
+  cleanSelectedImage(indexDel: number) {
+    this.files = this.files.filter((file, index) => index !== indexDel);
+  }
+
   async createPost(token: any) {
     try {
       const form = new FormData();
@@ -39,7 +43,7 @@ class AuthStore {
         console.log(val);
         form.append(`${val[0]}`, val[1]);
       });
-      for (let i = 1; i < this.files.length; i++) {
+      for (let i = 0; i < this.files.length; i++) {
         form.append("image", this.files[i]);
       }
       await fetch("http://localhost:5000/api/post/create", {
@@ -99,37 +103,37 @@ class AuthStore {
     }
   }
 
-  async updatePost(token: any) {
-    try {
-      const form = new FormData();
-      form.append("id", this.id);
-      form.append(
-        "images",
-        "785609a81acd38ad7688d826d8e56331ab1ebc1676ad7de3f4489d626a11bbb8"
-      );
-      Object.entries(this.updatedPost).map((val) => {
-        console.log(val);
-        form.append(`${val[0]}`, val[1]);
-      });
-      for (let i = 1; i < this.files.length; i++) {
-        form.append("image", this.files[i]);
-      }
-      await fetch("http://localhost:5000/api/post/update", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: form,
-      })
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          console.log(data);
-        });
-    } catch (error) {
-      throw error;
-    }
-  }
+  // async updatePost(token: any) {
+  //   try {
+  //     const form = new FormData();
+  //     form.append("id", this.id);
+  //     form.append(
+  //       "images",
+  //       "785609a81acd38ad7688d826d8e56331ab1ebc1676ad7de3f4489d626a11bbb8"
+  //     );
+  //     Object.entries(this.updatedPost).map((val) => {
+  //       console.log(val);
+  //       form.append(`${val[0]}`, val[1]);
+  //     });
+  //     for (let i = 0; i < this.files.length; i++) {
+  //       form.append("image", this.files[i]);
+  //     }
+  //     await fetch("http://localhost:5000/api/post/update", {
+  //       method: "POST",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: form,
+  //     })
+  //       .then((response) => {
+  //         return response.json();
+  //       })
+  //       .then((data) => {
+  //         console.log(data);
+  //       });
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
 }
 export default new AuthStore();

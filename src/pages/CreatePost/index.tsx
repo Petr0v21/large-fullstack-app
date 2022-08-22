@@ -11,28 +11,45 @@ const FormPost: React.FC = () => {
       <h2>Create Post</h2>
       <input
         type="text"
-        name="email"
+        name="title"
         value={store.post.title}
         required
-        onChange={(e) => store.addField(e.target.value, e.target.name)}
+        onChange={(event) => store.addField(event)}
       />
       <input
-        name="password"
         type="password"
+        name="description"
         value={store.post.description}
         required
-        onChange={(e) => store.addField(e.target.value, e.target.name)}
+        onChange={(event) => store.addField(event)}
       />
       <input
         className="custom-file-input"
+        value=""
         type="file"
         name="file"
         multiple
         accept="image/png, image/jpeg"
         onChange={(event) => {
           store.addImage(event);
+          console.log(event);
         }}
       />
+      <div className="GallaryChoose">
+        {store.files.map((img, index) => (
+          <div key={index} className="ImageChoose">
+            <img alt="uploadImage" src={URL.createObjectURL(img)} />
+            <div
+              className="Button_Delete"
+              onClick={() => {
+                store.cleanSelectedImage(index);
+              }}
+            >
+              Clear
+            </div>
+          </div>
+        ))}
+      </div>
       <button
         onClick={async (event) => {
           event.preventDefault();
@@ -41,7 +58,7 @@ const FormPost: React.FC = () => {
       >
         Create
       </button>
-      <button
+      {/* <button
         onClick={async (event) => {
           event.preventDefault();
           await store.getList();
@@ -56,10 +73,10 @@ const FormPost: React.FC = () => {
         }}
       >
         Delete
-      </button>
-      {store.url.images.map((img, index) => {
+      </button> */}
+      {/* {store.url.images.map((img, index) => {
         return <img key={index} alt="image" src={img} />;
-      })}
+      })} */}
     </form>
   );
 };

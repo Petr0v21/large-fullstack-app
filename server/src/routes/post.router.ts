@@ -46,16 +46,23 @@ router.post(
   }
 );
 
-router.get("/list", async (req, res) => {
+router.post("/list", async (req: any, res) => {
   try {
-    const list = await Post.find();
-
+    const list = await Post.find({}, null, {
+      limit: 5,
+      skip: (req.body.page - 1) * 5,
+    });
+    const lengthListPages = Math.ceil((await Post.count()) / 5);
+    const amount = [];
+    for (let i = 1; i <= lengthListPages; i++) {
+      amount.push(i);
+    }
     for (let post of list) {
       for (let i = 0; i < post.images.length; i++) {
         post.url[i] = await getObjectSignedUrl(post.images[i]);
       }
     }
-    res.send(list);
+    res.send({ list: list, pages: amount });
   } catch (error) {
     throw error;
   }
