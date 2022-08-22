@@ -5,6 +5,7 @@ const PostSchema: Schema = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   images: [{ type: String, required: true }],
+  url: [{ type: String, required: true }],
 });
 
 export default model("Post", PostSchema);

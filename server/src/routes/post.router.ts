@@ -18,18 +18,23 @@ const generateFileName = (bytes = 32) =>
 router.post(
   "/create",
   middleWare,
-  upload.single("image"),
+  upload.array("image"),
   async (req: any, res) => {
     try {
-      const file = req.file;
+      const files = req.files;
+      console.log(files);
       const post = new Post({ ...req.body, owner: req.user });
       const father = await User.findById(req.user);
+      if (!father) return res.status(400).json({ message: "User not exist" });
       father.links.push(post._id);
-      const imageName = generateFileName();
-      const result = await uploadFileS3(file, imageName);
-      console.log(result);
-      await unlinkFile(file.path);
-      post.images.push(imageName);
+      for (let file of files) {
+        const imageName = generateFileName();
+        console.log(file);
+        const result = await uploadFileS3(file, imageName);
+        console.log(result);
+        await unlinkFile(file.path);
+        post.images.push(imageName);
+      }
       console.log(post);
       console.log(father);
       post.save();
@@ -44,38 +49,80 @@ router.post(
 router.get("/list", async (req, res) => {
   try {
     const list = await Post.find();
+
     for (let post of list) {
-      post.images[0] = await getObjectSignedUrl(post.images[0]);
-      console.log(post.images);
+      for (let i = 0; i < post.images.length; i++) {
+        post.url[i] = await getObjectSignedUrl(post.images[i]);
+      }
     }
-    // list.forEach(async (post) => {
-    //   console.log("Post img name", post.images[0]);
-    //   const url = await getObjectSignedUrl(post.images[0]);
-    //   console.log("Url img", url);
-    //   post.images[0] = url;
-    //   console.log(post.images[0]);
-    // });
-    console.log(list);
     res.send(list);
   } catch (error) {
     throw error;
   }
 });
 
-router.post("/delete", (req, res) => {
+router.post("/delete", middleWare, async (req: any, res) => {
   try {
-    console.log("delete");
+    const user = await User.findById(req.user);
+    user.links = user.links.filter(
+      (idPost) => idPost.toString() !== req.body.id
+    );
+    const result = await Post.findByIdAndDelete(req.body.id);
+    console.log(result);
+    user.save();
+    res.json({ message: "Post has been deleted" });
   } catch (error) {
     throw error;
   }
 });
 
-router.post("/update", (req, res) => {
-  try {
-    console.log("update");
-  } catch (error) {
-    throw error;
+router.post(
+  "/update",
+  middleWare,
+  upload.array("image"),
+  async (req: any, res) => {
+    try {
+      const files = req.files;
+      console.log(files);
+      const { id, images, ...body } = req.body;
+      console.log(id);
+      console.log(body);
+      console.log("images", images);
+      if (body) {
+        await Post.findByIdAndUpdate(id, body);
+        console.log("Body update");
+      }
+      const post = await Post.findById(id);
+      if (Array.isArray(images)) {
+        console.log(images.length);
+        console.log("post images before", post.images);
+        images.map((img) => {
+          post.images = post.images.filter((elem) => elem !== img);
+        });
+        console.log("post images after", post.images);
+      } else if (images) {
+        console.log("Not Array");
+        console.log("post images before", post.images);
+        post.images = post.images.filter((elem) => elem !== images);
+        console.log("post images after", post.images);
+      }
+      if (files) {
+        for (let file of files) {
+          const imageName = generateFileName();
+          console.log(file);
+          const result = await uploadFileS3(file, imageName);
+          console.log(result);
+          await unlinkFile(file.path);
+          post.images.push(imageName);
+        }
+        console.log(post);
+      }
+      post.save();
+      return res.status(201).json({ message: "Post has been updated" });
+    } catch (e) {
+      throw e;
+    }
   }
-});
+);
 
 export default router;

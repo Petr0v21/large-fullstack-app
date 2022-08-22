@@ -5,11 +5,17 @@ class AuthStore {
     title: "The Best Worker",
     description: "It`s honestly",
   };
-  file: File | undefined;
+  updatedPost = {
+    title: "The Best Worker",
+    description: "It`s honestly",
+  };
+  files = ["selected images"];
 
   url = {
     images: [],
   };
+
+  id = "";
 
   constructor() {
     makeAutoObservable(this);
@@ -20,9 +26,10 @@ class AuthStore {
   }
 
   addImage(event: any) {
-    console.log(event.target.files[0]);
-    this.file = event.target.files[0];
-    console.log(this.file);
+    for (let i = 0; i < event.target.files.length; i++) {
+      this.files.push(event.target.files[i]);
+    }
+    console.log(this.files);
   }
 
   async createPost(token: any) {
@@ -32,22 +39,22 @@ class AuthStore {
         console.log(val);
         form.append(`${val[0]}`, val[1]);
       });
-      if (this.file) {
-        form.append("image", this.file);
-        await fetch("http://localhost:5000/api/post/create", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: form,
-        })
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            console.log(data);
-          });
+      for (let i = 1; i < this.files.length; i++) {
+        form.append("image", this.files[i]);
       }
+      await fetch("http://localhost:5000/api/post/create", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: form,
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+        });
     } catch (error) {
       throw error;
     }
@@ -62,8 +69,63 @@ class AuthStore {
           return response.json();
         })
         .then((data) => {
-          console.log(data[0].images[0]);
-          this.url.images = data[1].images;
+          console.log(data);
+          this.url.images = data[0].url;
+          this.id = data[0]._id;
+        });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deletePost(token: any) {
+    try {
+      await fetch("http://localhost:5000/api/post/delete", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: this.id }),
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+        });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updatePost(token: any) {
+    try {
+      const form = new FormData();
+      form.append("id", this.id);
+      form.append(
+        "images",
+        "785609a81acd38ad7688d826d8e56331ab1ebc1676ad7de3f4489d626a11bbb8"
+      );
+      Object.entries(this.updatedPost).map((val) => {
+        console.log(val);
+        form.append(`${val[0]}`, val[1]);
+      });
+      for (let i = 1; i < this.files.length; i++) {
+        form.append("image", this.files[i]);
+      }
+      await fetch("http://localhost:5000/api/post/update", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: form,
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
         });
     } catch (error) {
       throw error;

@@ -27,6 +27,7 @@ const FormPost: React.FC = () => {
         className="custom-file-input"
         type="file"
         name="file"
+        multiple
         accept="image/png, image/jpeg"
         onChange={(event) => {
           store.addImage(event);
@@ -46,9 +47,19 @@ const FormPost: React.FC = () => {
           await store.getList();
         }}
       >
-        Create
+        Get
       </button>
-      <img alt="image" src={store.url.images[0]} />
+      <button
+        onClick={async (event) => {
+          event.preventDefault();
+          await store.updatePost(auth?.token);
+        }}
+      >
+        Delete
+      </button>
+      {store.url.images.map((img, index) => {
+        return <img key={index} alt="image" src={img} />;
+      })}
     </form>
   );
 };
