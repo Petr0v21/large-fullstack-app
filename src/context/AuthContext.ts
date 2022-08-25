@@ -4,7 +4,7 @@ function noop() {}
 
 interface AppContextInterface {
   token: string | null;
-  userId: string | null;
+  userName: string | null;
   login: Function;
   logout: Function;
   isAuthenticated: boolean;
@@ -14,7 +14,7 @@ interface AppContextInterface {
 
 const AuthContext = createContext<AppContextInterface | null>({
   token: null,
-  userId: null,
+  userName: null,
   login: noop,
   logout: noop,
   isAuthenticated: false,

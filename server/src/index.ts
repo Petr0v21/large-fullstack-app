@@ -1,6 +1,7 @@
 import express from "express";
 import auth from "./routes/auth.routes";
 import post from "./routes/post.router";
+import user from "./routes/user.routes";
 import cors from "cors";
 import mongoose from "mongoose";
 
@@ -16,6 +17,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use("/api/auth", auth);
 app.use("/api/post", post);
+app.use("/api/user", user);
 
 async function start() {
   try {

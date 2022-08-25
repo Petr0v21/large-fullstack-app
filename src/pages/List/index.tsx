@@ -1,12 +1,20 @@
 import { observer } from "mobx-react";
-import React from "react";
+import React, { useEffect } from "react";
 import store from "../../stores/listStore";
 
 const FormPost: React.FC = () => {
+  useEffect(() => {
+    store.getList();
+  }, []);
   return (
     <div>
       {store.list.map((post) => (
-        <div>{post.title}</div>
+        <div key={post._id}>
+          {post.title}
+          {post.url.map((link: any) => (
+            <img key={link} src={link} />
+          ))}
+        </div>
       ))}
       <div className="Pages">
         {store.pages.map((page) => (

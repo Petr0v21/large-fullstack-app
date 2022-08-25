@@ -9,6 +9,7 @@ const FormSignUp: React.FC = () => {
       <input
         name="email"
         type="email"
+        placeholder="email"
         value={store.user.email}
         required
         onChange={(e) => store.addField(e.target.value, e.target.name)}
@@ -16,14 +17,31 @@ const FormSignUp: React.FC = () => {
       <input
         name="password"
         type="password"
+        placeholder="password"
         value={store.user.password}
+        required
+        onChange={(e) => store.addField(e.target.value, e.target.name)}
+      />
+      <input
+        name="phone"
+        type="text"
+        placeholder="phone"
+        value={store.user.phone}
+        required
+        onChange={(e) => store.addField(e.target.value, e.target.name)}
+      />
+      <input
+        name="name"
+        type="text"
+        placeholder="name"
+        value={store.user.name}
         required
         onChange={(e) => store.addField(e.target.value, e.target.name)}
       />
       <input type="checkbox" required />
       <button
         onClick={(event) => {
-          event.preventDefault();
+          // event.preventDefault();
           store.signUp();
         }}
       >

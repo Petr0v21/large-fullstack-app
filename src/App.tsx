@@ -4,15 +4,13 @@ import Header from "./app/component/Header";
 import Auth from "./pages/Auth";
 import FormPost from "./pages/CreatePost";
 import Profil from "./pages/Profil";
+import List from "./pages/List";
 import AuthContext from "./context/AuthContext";
 import { useAuth } from "./hooks/auth.hook";
-import FormSignUp from "./app/component/Auth/FormSignUp";
-import FormLogIn from "./app/component/Auth/FormLogIn";
 import { Link } from "react-router-dom";
-import store from "./stores/postStore";
 
 const App = () => {
-  const { token, login, logout, userId } = useAuth();
+  const { token, login, logout, userName } = useAuth();
   const isAuthenticated = !!token;
   console.log(isAuthenticated);
   return (
@@ -21,24 +19,22 @@ const App = () => {
         token: token,
         login,
         logout,
-        userId,
+        userName,
         isAuthenticated,
       }}
     >
       <Header />
       <Link to="/Profil">Profil</Link>
       <Routes>
-        {/* <Route path="/" element={<FormLogIn />} /> */}
+        <Route path="/home" element={<List />} />
         {isAuthenticated ? (
           <Route path="/Profil" element={<Profil />} />
         ) : (
           <Route path="/Profil" element={<Auth />} />
         )}
-        {/* <Navigate to="/Profil" /> */}
-        {/* <div>
-          <Auth />
-        </div> */}
+        <Route path="*" element={<Navigate replace to="/home" />} />
       </Routes>
+
       <button
         onClick={() => {
           console.log(token);
@@ -47,7 +43,6 @@ const App = () => {
       >
         CleanStorage
       </button>
-      <FormPost />
     </AuthContext.Provider>
   );
 };

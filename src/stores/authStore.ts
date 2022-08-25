@@ -4,10 +4,13 @@ class AuthStore {
   user = {
     email: "",
     password: "",
+    phone: "",
+    name: "",
   };
   code = "";
   codeHashed = "";
   id = "";
+  name = "";
   token = "";
   constructor() {
     makeAutoObservable(this);
@@ -23,9 +26,6 @@ class AuthStore {
 
   async signUp() {
     try {
-      console.log(this.user);
-      const str = JSON.stringify(this.user);
-      console.log(str);
       const data = await fetch("http://localhost:5000/api/auth/register", {
         method: "POST",
         headers: {
@@ -54,7 +54,7 @@ class AuthStore {
         .then((data) => {
           console.log(data);
           this.token = data.token;
-          this.id = data.userId;
+          this.name = data.name;
         });
     } catch (e) {
       throw e;

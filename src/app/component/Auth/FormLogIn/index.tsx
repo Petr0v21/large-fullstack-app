@@ -27,7 +27,7 @@ const FormLogIn: React.FC = () => {
         onClick={async (event) => {
           event.preventDefault();
           await store.logIn();
-          if (store.token) auth?.login(store.token, store.id);
+          if (store.token) auth?.login(store.token, store.name);
         }}
       >
         LogIn

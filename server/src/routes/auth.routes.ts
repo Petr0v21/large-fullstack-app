@@ -1,7 +1,7 @@
 import { Router } from "express";
 import User from "../models/User";
 import bcrypt from "bcryptjs";
-import { check, validationResult } from "express-validator";
+import { body, check, validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
 import sendMail from "../modules/nodemailer";
@@ -24,7 +24,8 @@ router.post(
         });
       }
       console.log(req.body);
-      const { email, password } = req.body;
+      const { email, password, ...body } = req.body;
+      console.log(body);
       const candidate = await User.findOne({ email });
       if (candidate) {
         return res.status(400).json({ message: "This User already exist!" });
@@ -33,6 +34,7 @@ router.post(
       const user = new User({
         email,
         password: passwordHashed,
+        ...body,
       });
       await user.save();
       return res.status(201).json({ message: "пользователь создан" });
@@ -70,9 +72,9 @@ router.post(
           .json({ message: "Неверный пароль, попробуйте снова" });
       }
       const token = jwt.sign({ userId: user.id }, process.env.jwtSecret, {
-        expiresIn: "1h",
+        expiresIn: "24h",
       });
-      res.json({ token, userId: user._id });
+      res.json({ token, name: user.name });
     } catch (e) {
       throw e;
     }

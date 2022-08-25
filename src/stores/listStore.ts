@@ -1,9 +1,9 @@
 import { makeAutoObservable } from "mobx";
 
 class ListStore {
-  list = [];
+  list: any[] = [];
   pages = [];
-  currentpage = 1;
+  currentpage: any = 1;
   constructor() {
     makeAutoObservable(this);
   }
@@ -30,7 +30,7 @@ class ListStore {
     }
   }
 
-  changePage(page) {
+  changePage(page: any) {
     this.currentpage = page;
     this.getList();
   }

@@ -12,14 +12,40 @@ const FormPost: React.FC = () => {
       <input
         type="text"
         name="title"
+        placeholder="title"
         value={store.post.title}
         required
         onChange={(event) => store.addField(event)}
       />
       <input
-        type="password"
+        type="text"
         name="description"
+        placeholder="description"
         value={store.post.description}
+        required
+        onChange={(event) => store.addField(event)}
+      />
+      <input
+        type="text"
+        name="category"
+        placeholder="category"
+        value={store.post.category}
+        required
+        onChange={(event) => store.addField(event)}
+      />
+      <input
+        type="text"
+        name="location"
+        placeholder="location"
+        value={store.post.location}
+        required
+        onChange={(event) => store.addField(event)}
+      />
+      <input
+        type="text"
+        name="price"
+        placeholder="price"
+        value={store.post.price}
         required
         onChange={(event) => store.addField(event)}
       />

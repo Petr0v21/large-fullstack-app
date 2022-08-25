@@ -4,6 +4,9 @@ class AuthStore {
   post = {
     title: "",
     description: "",
+    price: "",
+    category: "",
+    location: "",
   };
   updatedPost = {
     title: "The Best Worker",
