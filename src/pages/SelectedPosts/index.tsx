@@ -1,14 +1,24 @@
-import FormComment from "../../app/component/FormComment";
+import SelectedPost from "../../app/component/SelectedPost";
 import { observer } from "mobx-react";
-import React, { useEffect } from "react";
-import store from "../../stores/listStore";
+import React, { useContext, useEffect } from "react";
+import store from "../../stores/selectedStore";
+import PostsContext from "../../context/PostsContext";
 
 const FormPost: React.FC = () => {
+  const context = useContext(PostsContext);
   useEffect(() => {
-    store.getList();
+    const data = JSON.parse(localStorage.getItem("selectedPosts") as string);
+    if (data && data.ids.length !== 0) store.getList(data.ids);
   }, []);
   return (
     <div>
+      <button
+        onClick={() => {
+          context?.addId("630cf43fd9599cb159c63f93");
+        }}
+      >
+        Clck
+      </button>
       {store.list.map((post) => (
         <div key={post._id}>
           {post.title}
@@ -17,7 +27,7 @@ const FormPost: React.FC = () => {
               <img key={link} src={link} />
             ))}
           </div>
-          <FormComment id={post._id} />
+          {/* <SelectedPost post={} /> */}
         </div>
       ))}
       <div className="Pages">

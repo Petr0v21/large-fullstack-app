@@ -169,7 +169,7 @@ class UserStore {
     }
   }
 
-  async deletePost(token: any) {
+  async deletePost(token: any, id: string) {
     try {
       await fetch("http://localhost:5000/api/post/delete", {
         method: "POST",
@@ -177,7 +177,7 @@ class UserStore {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id: this.id }),
+        body: JSON.stringify({ id: id }),
       })
         .then((response) => {
           return response.json();

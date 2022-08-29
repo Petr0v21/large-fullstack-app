@@ -23,9 +23,7 @@ router.post(
           message: "Некорректный данные при входе в систему",
         });
       }
-      console.log(req.body);
       const { email, password, ...body } = req.body;
-      console.log(body);
       const candidate = await User.findOne({ email });
       if (candidate) {
         return res.status(400).json({ message: "This User already exist!" });
@@ -52,7 +50,6 @@ router.post(
   ],
   async (req: any, res: any) => {
     try {
-      console.log(req.body);
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({
@@ -86,7 +83,6 @@ router.post(
   [check("email", "Input correct email").normalizeEmail().isEmail()],
   async (req: any, res: any) => {
     try {
-      console.log(req.body);
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({
@@ -117,7 +113,6 @@ router.post(
   ],
   async (req: any, res: any) => {
     try {
-      console.log(req.body);
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({

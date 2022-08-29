@@ -13,15 +13,16 @@ class ListStore {
     this.filt = { ...this.filt, [event.target.name]: event.target.value };
   }
 
-  async getList() {
+  async getList(idPosts?: any) {
     try {
-      await fetch("http://localhost:5000/api/post/list", {
+      await fetch("http://localhost:5000/api/post/listselected", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           page: this.currentpage,
+          ids: idPosts,
           filter: this.filt,
         }),
       })
@@ -40,7 +41,6 @@ class ListStore {
 
   changePage(page: any) {
     this.currentpage = page;
-    this.getList();
   }
 }
 export default new ListStore();
