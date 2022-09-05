@@ -24,9 +24,13 @@ router.post(
   async (req: any, res) => {
     try {
       const files = req.files;
-      const post = new Post({ ...req.body, owner: req.user });
       const father = await User.findById(req.user);
       if (!father) return res.status(400).json({ message: "User not exist" });
+      const post = new Post({
+        ...req.body,
+        owner: req.user,
+        ownerName: father.name,
+      });
       father.links.push(post._id);
       for (let file of files) {
         const imageName = generateFileName();
@@ -63,6 +67,13 @@ router.post("/list", async (req: any, res) => {
         post.url[i] = await getObjectSignedUrl(post.images[i]);
       }
     }
+    let owner = [];
+    let user: any;
+    for (let post of list) {
+      let user = await User.findById(post.owner);
+      post.ownerName = user.name;
+    }
+    console.log(list[0].owner);
     res.send({ list: list, pages: amount });
   } catch (error) {
     throw error;
@@ -119,7 +130,7 @@ router.post(
   async (req: any, res) => {
     try {
       const files = req.files;
-      const { id, images, ...body } = req.body;
+      const { id, images, rating, ...body } = req.body;
       if (body) {
         await Post.findByIdAndUpdate(id, body);
       }
@@ -146,6 +157,22 @@ router.post(
     }
   }
 );
+
+router.get("/:id", async (req: any, res: any) => {
+  try {
+    const post = await Post.findById(req.params.id).select({
+      __v: 0,
+      _id: 0,
+      links: 0,
+    });
+    for (let i = 0; i < post.images.length; i++) {
+      post.url[i] = await getObjectSignedUrl(post.images[i]);
+    }
+    res.send(post);
+  } catch (e) {
+    throw e;
+  }
+});
 
 router.post(
   "/comment",

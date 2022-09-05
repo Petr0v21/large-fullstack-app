@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./styles/main.css";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Header from "./app/component/Header";
+import Footer from "./app/component/Footer";
 import Auth from "./pages/Auth";
 import SelectedPosts from "./pages/SelectedPosts";
 import Profil from "./pages/Profil";
@@ -10,13 +11,30 @@ import AuthContext from "./context/AuthContext";
 import PostsContext from "./context/PostsContext";
 import { useAuth } from "./hooks/auth.hook";
 import { useSelect } from "./hooks/selectPost.hook";
-import { Link } from "react-router-dom";
 
 const App = () => {
   const { token, login, logout, userName } = useAuth();
   const { addId, deleteId } = useSelect();
   const isAuthenticated = !!token;
-  console.log(isAuthenticated);
+  console.log(userName);
+  const check = async () => {
+    await fetch("http://localhost:5000/api/user/info", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((response) => {
+      if (response.status === 401) {
+        logout();
+        return;
+      }
+    });
+  };
+  useEffect(() => {
+    if (token) {
+      check();
+    }
+  }, [token]);
   return (
     <AuthContext.Provider
       value={{
@@ -27,34 +45,38 @@ const App = () => {
         isAuthenticated,
       }}
     >
-      <Header />
       <PostsContext.Provider
         value={{
           addId,
           deleteId,
         }}
       >
-        <SelectedPosts />
-        <Link to="/Profil">Profil</Link>
-        <Routes>
-          <Route path="/home" element={<List />} />
-          {isAuthenticated ? (
-            <Route path="/Profil" element={<Profil />} />
-          ) : (
-            <Route path="/Profil" element={<Auth />} />
-          )}
-          <Route path="*" element={<Navigate replace to="/home" />} />
-        </Routes>
+        <Header />
+        {/* <div className="box"></div>
+        <div className="loader-container">
+          <div className="loader-1"></div>
+        </div> */}
+        <div className="main-content">
+          <Routes>
+            <Route path="/*" element={<List />} />
+            <Route path="/selected/*" element={<SelectedPosts />} />
+            {isAuthenticated ? (
+              <Route path="/profil/*" element={<Profil />} />
+            ) : (
+              <Route path="/profil/*" element={<Auth />} />
+            )}
+          </Routes>
+        </div>
+        <Footer />
       </PostsContext.Provider>
-
-      <button
+      {/* <button
         onClick={() => {
           console.log(token);
           logout();
         }}
       >
         CleanStorage
-      </button>
+      </button> */}
     </AuthContext.Provider>
   );
 };

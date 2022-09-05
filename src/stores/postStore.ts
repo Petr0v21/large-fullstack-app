@@ -26,17 +26,38 @@ class AuthStore {
 
   addField(event: any) {
     this.post = { ...this.post, [event.target.name]: event.target.value };
+    console.log(this.post);
+  }
+
+  selectField(name: string, value: string) {
+    this.post = { ...this.post, [name]: value };
+    console.log(this.post);
   }
 
   addImage(event: any) {
     for (let i = 0; i < event.target.files.length; i++) {
+      if (this.files.length > 5) {
+        alert("Це більше за максимальну кількість фото, маскимум(6)");
+        return;
+      }
       this.files.push(event.target.files[i]);
     }
-    console.log(this.files);
   }
 
   cleanSelectedImage(indexDel: number) {
     this.files = this.files.filter((file, index) => index !== indexDel);
+  }
+
+  cleanStore() {
+    this.post = {
+      title: "",
+      description: "",
+      price: "",
+      category: "",
+      location: "",
+    };
+    this.files = [];
+    this.url.images = [];
   }
 
   async createPost(token: any) {
@@ -105,38 +126,5 @@ class AuthStore {
       throw error;
     }
   }
-
-  // async updatePost(token: any) {
-  //   try {
-  //     const form = new FormData();
-  //     form.append("id", this.id);
-  //     form.append(
-  //       "images",
-  //       "785609a81acd38ad7688d826d8e56331ab1ebc1676ad7de3f4489d626a11bbb8"
-  //     );
-  //     Object.entries(this.updatedPost).map((val) => {
-  //       console.log(val);
-  //       form.append(`${val[0]}`, val[1]);
-  //     });
-  //     for (let i = 0; i < this.files.length; i++) {
-  //       form.append("image", this.files[i]);
-  //     }
-  //     await fetch("http://localhost:5000/api/post/update", {
-  //       method: "POST",
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       body: form,
-  //     })
-  //       .then((response) => {
-  //         return response.json();
-  //       })
-  //       .then((data) => {
-  //         console.log(data);
-  //       });
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
 }
 export default new AuthStore();

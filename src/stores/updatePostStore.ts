@@ -2,8 +2,11 @@ import { makeAutoObservable } from "mobx";
 
 class updatePostStore {
   updatedPost = {
-    title: "The Best Worker",
-    description: "It`s honestly",
+    title: "",
+    description: "",
+    price: "",
+    category: "",
+    location: "",
     images: [""],
     url: [
       "https://planetcode.in/assets/images/default-image-png-9-300x200.png",
@@ -24,8 +27,18 @@ class updatePostStore {
     };
   }
 
+  selectField(name: string, value: string) {
+    // this.post.category = value;
+    this.updatedPost = { ...this.updatedPost, [name]: value };
+    console.log(this.updatedPost);
+  }
+
   addImage(event: any) {
     for (let i = 0; i < event.target.files.length; i++) {
+      if (this.files.length > 5 - this.updatedPost.images.length) {
+        alert("Це більше за максимальну кількість фото, маскимум(6)");
+        return;
+      }
       this.files.push(event.target.files[i]);
     }
     console.log(this.files);

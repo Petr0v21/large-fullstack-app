@@ -27,6 +27,7 @@ export const useSelect = () => {
         ids: ids,
       })
     );
+    console.log(localStorage);
   }, []);
 
   useEffect(() => {
@@ -34,7 +35,6 @@ export const useSelect = () => {
       const data = JSON.parse(localStorage.getItem(storageName) as string);
       if (data && data.ids) {
         ids = data.ids;
-        console.log(ids);
       }
     }
   }, [addId, deleteId]);

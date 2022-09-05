@@ -17,8 +17,9 @@
     "jsx": "react-jsx",
     "baseUrl": "src",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["src/*"],
+      "app/*": ["src/app/*"]
     }
   },
-  "include": ["./src/*"]
+  "include": ["./src/*", "src/custom.d.ts", "./src/app/*"]
 }

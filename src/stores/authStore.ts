@@ -12,6 +12,7 @@ class AuthStore {
   id = "";
   name = "";
   token = "";
+  ok = false;
   constructor() {
     makeAutoObservable(this);
   }
@@ -32,7 +33,16 @@ class AuthStore {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(this.user),
-      });
+      })
+        .then((info) => info.json())
+        .then((info) => {
+          if (info.ok) {
+            this.ok = true;
+            alert(info.message);
+          } else {
+            alert(info.message);
+          }
+        });
       console.log(data);
     } catch (e) {
       throw e;
@@ -74,9 +84,13 @@ class AuthStore {
           return response.json();
         })
         .then((data) => {
-          console.log(data);
-          this.id = data.id;
-          this.codeHashed = data.codeHashed;
+          if (data.ok) {
+            console.log(data);
+            this.id = data.id;
+            this.codeHashed = data.codeHashed;
+          } else {
+            alert(data.message);
+          }
         });
       console.log(this.id);
     } catch (e) {
@@ -100,7 +114,19 @@ class AuthStore {
             codeHashed: this.codeHashed,
           }),
         }
-      );
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          if (data.ok) {
+            console.log(data);
+            this.ok = true;
+            alert(data.message);
+          } else {
+            alert(data.message);
+          }
+        });
     } catch (error) {
       throw error;
     }

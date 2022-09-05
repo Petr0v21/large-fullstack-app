@@ -15,9 +15,10 @@ const config = {
     path: path.resolve(__dirname, "..", "dist"),
   },
   resolve: {
-    // alias: {
-    //   "@": path.resolve(__dirname, "src/stores"),
-    // },
+    alias: {
+      "@": path.resolve(__dirname, "..", "src/"),
+      app: path.resolve(__dirname, "..", "src/app/"),
+    },
     extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
   },
   optimization: {

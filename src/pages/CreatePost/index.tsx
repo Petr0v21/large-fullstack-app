@@ -3,52 +3,116 @@ import { observer } from "mobx-react";
 import React from "react";
 import { useContext } from "react";
 import store from "../../stores/postStore";
+import InputComponent, {
+  InputComponentChildren,
+  TextAreaStyled,
+} from "../../app/styled-components/Input";
+import {
+  InputSelectDefault,
+  SelectDefault,
+} from "../../app/styled-components/Select";
+import { Button } from "../../app/styled-components/Button";
 
 const FormPost: React.FC = () => {
   const auth = useContext(AuthContext);
+  let list = [
+    "Будівництво",
+    "Ремонт квартир",
+    "Тульчин, Тульчинський р-н, Вінницька обл.",
+    "цфввцф",
+  ];
   return (
-    <form>
+    <form
+      className="formCreate"
+      onSubmit={async (event) => {
+        event.preventDefault();
+        await store.createPost(auth?.token);
+        alert("Post created");
+        store.cleanStore();
+      }}
+    >
       <h2>Create Post</h2>
-      <input
-        type="text"
-        name="title"
-        placeholder="title"
-        value={store.post.title}
-        required
-        onChange={(event) => store.addField(event)}
-      />
-      <input
-        type="text"
-        name="description"
-        placeholder="description"
-        value={store.post.description}
-        required
-        onChange={(event) => store.addField(event)}
-      />
-      <input
-        type="text"
-        name="category"
-        placeholder="category"
-        value={store.post.category}
-        required
-        onChange={(event) => store.addField(event)}
-      />
-      <input
-        type="text"
-        name="location"
-        placeholder="location"
-        value={store.post.location}
-        required
-        onChange={(event) => store.addField(event)}
-      />
-      <input
-        type="text"
-        name="price"
-        placeholder="price"
-        value={store.post.price}
-        required
-        onChange={(event) => store.addField(event)}
-      />
+      <InputComponentChildren size="medium">
+        <input
+          name="title"
+          value={store.post.title}
+          onChange={(event) => store.addField(event)}
+          placeholder="title"
+          required
+        />
+      </InputComponentChildren>
+      <SelectDefault size="medium">
+        <InputComponentChildren size="medium" img>
+          <input
+            name="category"
+            value={store.post.category}
+            onChange={(event) => store.addField(event)}
+            placeholder="category"
+            autoComplete="off"
+            required
+          />
+        </InputComponentChildren>
+        <div className="content">
+          {list.map((arg) => (
+            <p
+              onClick={() => {
+                store.selectField("category", arg);
+              }}
+              key={arg}
+            >
+              {arg}
+            </p>
+          ))}
+        </div>
+      </SelectDefault>
+      <InputSelectDefault size="medium">
+        <InputComponentChildren size="medium" img>
+          <input
+            name="location"
+            value={store.post.location}
+            onChange={(event) => store.addField(event)}
+            placeholder="location"
+            autoComplete="off"
+            required
+          />
+        </InputComponentChildren>
+        <div className="content">
+          {list
+            .filter((arg) =>
+              arg
+                .toLocaleLowerCase()
+                .includes(store.post.location.toLocaleLowerCase())
+            )
+            .map((arg) => (
+              <p
+                onClick={() => {
+                  store.selectField("location", arg);
+                }}
+                key={arg}
+              >
+                {arg}
+              </p>
+            ))}
+        </div>
+      </InputSelectDefault>
+      <InputComponentChildren size="medium">
+        <input
+          name="price"
+          value={store.post.price}
+          onChange={(event) => store.addField(event)}
+          placeholder="price"
+          required
+        />
+      </InputComponentChildren>
+      <TextAreaStyled size="medium">
+        <textarea
+          name="description"
+          value={store.post.description}
+          onChange={(event) => store.addField(event)}
+          placeholder="description"
+          required
+        />
+      </TextAreaStyled>
       <input
         className="custom-file-input"
         value=""
@@ -57,6 +121,10 @@ const FormPost: React.FC = () => {
         multiple
         accept="image/png, image/jpeg"
         onChange={(event) => {
+          if (store.files.length > 5) {
+            alert("Це більше за максимальну кількість фото, маскимум(5)");
+            return;
+          }
           store.addImage(event);
           console.log(event);
         }}
@@ -71,38 +139,12 @@ const FormPost: React.FC = () => {
                 store.cleanSelectedImage(index);
               }}
             >
-              Clear
+              Delete
             </div>
           </div>
         ))}
       </div>
-      <button
-        onClick={async (event) => {
-          event.preventDefault();
-          await store.createPost(auth?.token);
-        }}
-      >
-        Create
-      </button>
-      {/* <button
-        onClick={async (event) => {
-          event.preventDefault();
-          await store.getList();
-        }}
-      >
-        Get
-      </button>
-      <button
-        onClick={async (event) => {
-          event.preventDefault();
-          await store.updatePost(auth?.token);
-        }}
-      >
-        Delete
-      </button> */}
-      {/* {store.url.images.map((img, index) => {
-        return <img key={index} alt="image" src={img} />;
-      })} */}
+      <Button>Create</Button>
     </form>
   );
 };

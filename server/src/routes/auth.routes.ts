@@ -21,12 +21,15 @@ router.post(
         return res.status(400).json({
           errors: errors.array(),
           message: "Некорректный данные при входе в систему",
+          ok: false,
         });
       }
       const { email, password, ...body } = req.body;
       const candidate = await User.findOne({ email });
       if (candidate) {
-        return res.status(400).json({ message: "This User already exist!" });
+        return res
+          .status(400)
+          .json({ message: "This User already exist!", ok: false });
       }
       const passwordHashed = await bcrypt.hash(password, 12);
       const user = new User({
@@ -35,7 +38,7 @@ router.post(
         ...body,
       });
       await user.save();
-      return res.status(201).json({ message: "пользователь создан" });
+      return res.status(201).json({ message: "пользователь создан", ok: true });
     } catch (e) {
       throw e;
     }
@@ -88,17 +91,20 @@ router.post(
         return res.status(400).json({
           errors: errors.array(),
           message: "Некорректный данные при входе в систему",
+          ok: false,
         });
       }
       const { email } = req.body;
       const user = await User.findOne({ email });
       if (!user) {
-        return res.status(400).json({ message: "Пользователь не найден" });
+        return res
+          .status(400)
+          .json({ message: "Пользователь не найден", ok: false });
       }
       const code = Math.floor(Math.random() * 10000).toString();
       const codeHashed = await bcrypt.hash(code, 12);
       sendMail(email, code);
-      res.json({ id: user._id, codeHashed: codeHashed });
+      res.json({ id: user._id, codeHashed: codeHashed, ok: true });
     } catch (e) {
       throw e;
     }
@@ -118,18 +124,21 @@ router.post(
         return res.status(400).json({
           errors: errors.array(),
           message: "Некорректный данные при входе в систему",
+          ok: false,
         });
       }
       const { code, codeHashed, password, id } = req.body;
       const isMatch = await bcrypt.compare(code, codeHashed);
       if (!isMatch) {
-        return res.status(400).json({ meessag: "Not correct check-code" });
+        return res
+          .status(400)
+          .json({ meessag: "Not correct check-code", ok: false });
       }
       const passwordHashed = await bcrypt.hash(password, 12);
       User.findByIdAndUpdate(id, { password: passwordHashed }, (err) => {
-        if (err) return res.status(400).send(err);
+        if (err) return res.status(400).send({ err: err, ok: false });
       });
-      res.json({ message: "Password has been updated" });
+      res.json({ message: "Password has been updated", ok: true });
     } catch (e) {
       throw e;
     }

@@ -120,7 +120,13 @@ class UserStore {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(this.user),
-      });
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          alert(data.message);
+        });
     } catch (e) {
       throw e;
     }
@@ -138,8 +144,6 @@ class UserStore {
           return response.json();
         })
         .then((data) => {
-          console.log(this.user);
-          // this.user = data;
           for (const [key, value] of Object.entries(data)) {
             this.user = { ...this.user, [key]: value };
           }
@@ -185,6 +189,7 @@ class UserStore {
         .then((data) => {
           console.log(data);
         });
+      alert("Post has been deleted!");
     } catch (error) {
       throw error;
     }
