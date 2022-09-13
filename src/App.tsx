@@ -6,6 +6,7 @@ import Footer from "./app/component/Footer";
 import Auth from "./pages/Auth";
 import SelectedPosts from "./pages/SelectedPosts";
 import Profil from "./pages/Profil";
+import Main from "./pages/Main";
 import List from "./pages/List";
 import AuthContext from "./context/AuthContext";
 import PostsContext from "./context/PostsContext";
@@ -51,14 +52,13 @@ const App = () => {
           deleteId,
         }}
       >
-        <Header />
         {/* <div className="box"></div>
         <div className="loader-container">
           <div className="loader-1"></div>
         </div> */}
         <div className="main-content">
           <Routes>
-            <Route path="/*" element={<List />} />
+            <Route path="/*" element={<Main />} />
             <Route path="/selected/*" element={<SelectedPosts />} />
             {isAuthenticated ? (
               <Route path="/profil/*" element={<Profil />} />
@@ -67,7 +67,7 @@ const App = () => {
             )}
           </Routes>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </PostsContext.Provider>
       {/* <button
         onClick={() => {
