@@ -1,8 +1,11 @@
 import AuthContext from "../../../context/AuthContext";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { device } from "../../styled-components/size";
+import MenuIcon from "../../../static/images/MenuIcon.svg";
+import Home from "../../../static/images/Home.svg";
+import BackMenu from "../../../static/images/NavBarSmallBack.svg";
 
 const HeaderStyled = styled.div`
   height: 5vh;
@@ -54,64 +57,64 @@ const HeaderStyled = styled.div`
     border-radius: 12px;
     letter-spacing: -0.05em;
   }
-  @media ${device.mobileS} {
-    h1 {
-      font-family: "Russo One";
-      font-style: normal;
-      font-weight: 300;
-      font-size: 14px;
-      line-height: 14px;
-      text-align: center;
-      text-transform: uppercase;
-    }
-  }
+  // @media ${device.mobileS} {
+  //   h1 {
+  //     font-family: "Russo One";
+  //     font-style: normal;
+  //     font-weight: 300;
+  //     font-size: 14px;
+  //     line-height: 14px;
+  //     text-align: center;
+  //     text-transform: uppercase;
+  //   }
+  // }
 
-  @media ${device.mobileM} {
-    h1 {
-      font-family: "Russo One";
-      font-style: normal;
-      font-weight: 300;
-      font-size: 16px;
-      line-height: 16px;
-      text-align: center;
-      text-transform: uppercase;
-    }
-  }
+  // @media ${device.mobileM} {
+  //   h1 {
+  //     font-family: "Russo One";
+  //     font-style: normal;
+  //     font-weight: 300;
+  //     font-size: 16px;
+  //     line-height: 16px;
+  //     text-align: center;
+  //     text-transform: uppercase;
+  //   }
+  // }
 
-  @media (max-width: 520px) {
-    .header-login {
-      width: 54px;
-      height: 22px;
-    }
-    .header-signIn {
-      width: 0;
-      a {
-        width: 0;
-        opacity: 0;
-      }
-      // height: 24px;
-    }
-  }
+  // @media (max-width: 520px) {
+  //   .header-login {
+  //     width: 54px;
+  //     height: 22px;
+  //   }
+  //   .header-signIn {
+  //     width: 0;
+  //     a {
+  //       width: 0;
+  //       opacity: 0;
+  //     }
+  //     // height: 24px;
+  //   }
+  // }
 
-  @media (min-width: 520px) {
-    h1 {
-      font-family: "Russo One";
-      font-style: normal;
-      font-weight: 300;
-      font-size: 18px;
-      line-height: 18px;
-      text-align: center;
-      text-transform: uppercase;
-    }
-    .header-login {
-      width: 58px;
-      height: 24px;
-    }
-    .header-signIn {
-      width: 100px;
-      height: 24px;
-    }
-  }
+  // @media (min-width: 520px) {
+  //   h1 {
+  //     font-family: "Russo One";
+  //     font-style: normal;
+  //     font-weight: 300;
+  //     font-size: 18px;
+  //     line-height: 18px;
+  //     text-align: center;
+  //     text-transform: uppercase;
+  //   }
+  //   .header-login {
+  //     width: 58px;
+  //     height: 24px;
+  //   }
+  //   .header-signIn {
+  //     width: 100px;
+  //     height: 24px;
+  //   }
+  // }
 
   @media ${device.tablet} {
     h1 {
@@ -191,8 +194,173 @@ const HeaderStyled = styled.div`
   }
 `;
 
+const HeaderSmall = styled.div`
+  padding: 3vh 5vw 3vh 5vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  a {
+    color: white;
+  }
+  h1 {
+    font-family: "Russo One";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 30px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  img {
+    width: 30px;
+    height: 15px;
+  }
+`;
+
+const HeaderSmallMenu = styled.div<{ open?: boolean }>`
+  // width: ${(props) => (props.open ? "320px" : "0")};
+  width: 320px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
+  padding: 3vh 5vw 3vh 5vw;
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+  // justify-content: space-between;
+  img {
+    align-self: center;
+    margin-bottom: 10px;
+    width: 30px;
+    height: auto;
+  }
+  h2 {
+    font-family: "Russo One";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 30px;
+    text-align: center;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #253256;
+  }
+  .header-menu-links {
+    padding: 20vh 0;
+    width: 100%;
+    height: auto;
+    background: url(${BackMenu});
+    background-repeat: no-repeat;
+    background-position: center center;
+    // -webkit-background-size: cover;
+    // -moz-background-size: cover;
+    // -o-background-size: cover;
+    // background-size: cover;
+    display: flex;
+    flex-direction: column;
+    gap: 8vh;
+    label {
+      font-family: "Montserrat";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 22px;
+      text-align: center;
+      letter-spacing: 0.05em;
+      color: #253256;
+    }
+  }
+  .header-menu-auth {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    .header-menu-login {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      border: 1px solid #5766ec;
+      border-radius: 12px;
+      width: 100px;
+      height: 34px;
+      label {
+        font-family: "Montserrat";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 15px;
+        text-align: center;
+        letter-spacing: -0.05em;
+        color: #5766ec;
+      }
+    }
+    .header-menu-signUp {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #5766ec;
+      border-radius: 12px;
+      width: 120px;
+      height: 34px;
+      label {
+        font-family: "Montserrat";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 15px;
+        text-align: center;
+        letter-spacing: -0.05em;
+        color: #ffffff;
+      }
+    }
+  }
+`;
+
 const Header = () => {
+  const [openMenu, setOpenMenu] = useState(false);
   const auth = useContext(AuthContext);
+  if (window.innerWidth <= 768 && !openMenu) {
+    return (
+      <HeaderSmall>
+        <Link to="/">
+          <h1>BilWork</h1>
+        </Link>
+        <img alt="menu" src={MenuIcon} onClick={() => setOpenMenu(true)} />
+      </HeaderSmall>
+    );
+  } else if (openMenu) {
+    return (
+      <>
+        <HeaderSmall>
+          <Link to="/">
+            <h1>BilWork</h1>
+          </Link>
+          <img alt="menu" src={MenuIcon} onClick={() => setOpenMenu(true)} />
+        </HeaderSmall>
+        <HeaderSmallMenu>
+          <img alt="close-menu" src={Home} onClick={() => setOpenMenu(false)} />
+          <div className="header-menu-auth">
+            <div className="header-menu-login">
+              <label>Увійти</label>
+            </div>
+            <div className="header-menu-signUp">
+              <label>Зареєструватися</label>
+            </div>
+          </div>
+          <div className="header-menu-links">
+            <label>Про нас</label>
+            <label>Список</label>
+            <label>Обрані</label>
+            <label>Контaкти</label>
+          </div>
+          <h2>Bilwork</h2>
+        </HeaderSmallMenu>
+      </>
+    );
+  }
   return (
     <HeaderStyled>
       <Link to="/">

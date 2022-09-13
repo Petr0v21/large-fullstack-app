@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Route, Routes } from "react-router";
 import BackImage from "../../static/images/BackMainPage.svg";
+import BackImageSmall from "../../static/images/BackMainPageSmall.svg";
 import RoadforBook from "../../static/images/road1.svg";
 import ImageDesc from "../../static/images/image_ab.svg";
 import TelegramBig from "../../static/images/telegram.svg";
@@ -13,7 +14,7 @@ import Footer from "../../app/component/Footer";
 import { Link } from "react-router-dom";
 
 const MainPagePreview = styled.div`
-  background: url(${BackImage});
+  background: url(${window.innerWidth >= 520 ? BackImage : BackImageSmall});
   background-repeat: no-repeat;
   background-position: center center;
   -webkit-background-size: cover;
@@ -59,39 +60,49 @@ const MainPagePreview = styled.div`
     ". text . . ."
     ". . . button .";
   @media ${device.mobileS} {
-    font-size: 7px;
+    font-size: 12px;
     main-text-preview {
       letter-spacing: 0.1em;
     }
     width: 100%;
-    height: 260px;
+    height: 80vh;
     .main-button {
-      height: 24px;
-      font-size: 6px;
+      width: 100%;
+      height: 34px;
+      font-size: 12px;
     }
   }
 
   @media ${device.mobileM} {
-    font-size: 8px;
+    font-size: 12px;
     width: 100%;
-    height: 300px;
+    // height: 300px;
+    height: 80vh;
     .main-button {
-      height: 28px;
-      font-size: 8px;
+      width: 100%;
+      height: 38px;
+      font-size: 14px;
     }
   }
 
-  @media (max-width: 425px) {
-    grid-template-rows: 25% 40px 100px;
+  @media (max-width: 520px) {
+    grid-template-rows: 25% 10% 40% 25%;
+    grid-template-areas:
+      "header header header header header"
+      ". . . . . "
+      ". text text . ."
+      ". . button button .";
   }
 
   @media ${device.mobileL} {
-    font-size: 10px;
+    font-size: 14px;
     width: 100%;
-    height: 320px;
+    // height: 320px;
+    height: 80vh;
     .main-button {
-      height: 34px;
-      font-size: 10px;
+      width: 100%;
+      height: 42px;
+      font-size: 14px;
     }
   }
 
@@ -100,7 +111,8 @@ const MainPagePreview = styled.div`
   @media ${device.tablet} {
     font-size: 12px;
     width: 100%;
-    height: 500px;
+    // height: 500px;
+    height: 90vh;
     .main-button {
       height: 42px;
       font-size: 12px;
@@ -210,7 +222,7 @@ const AboutUsStyled = styled.div`
     "statistics statistics statistics statistics statistics"
     ". large large large .";
   @media ${device.mobileS} {
-    font-size: 8px;
+    font-size: 10px;
     h2 {
       font-size: 24px;
       line-height: 36px;
@@ -227,14 +239,14 @@ const AboutUsStyled = styled.div`
     }
     .main-aboutUs-right-text {
       h3 {
-        font-size: 8px;
-        line-height: 8px;
+        font-size: 12px;
+        line-height: 12px;
       }
     }
   }
 
   @media ${device.mobileM} {
-    font-size: 8px;
+    font-size: 12px;
     h2 {
       font-size: 28px;
       line-height: 30px;
@@ -246,14 +258,14 @@ const AboutUsStyled = styled.div`
     }
     .main-aboutUs-right-text {
       h3 {
-        font-size: 8px;
-        line-height: 8px;
+        font-size: 12px;
+        line-height: 12px;
       }
     }
   }
 
   @media ${device.mobileL} {
-    font-size: 10px;
+    font-size: 12px;
     h2 {
       font-size: 30px;
       line-height: 34px;
@@ -265,8 +277,8 @@ const AboutUsStyled = styled.div`
     }
     .main-aboutUs-right-text {
       h3 {
-        font-size: 10px;
-        line-height: 10px;
+        font-size: 12px;
+        line-height: 12px;
       }
     }
   }
@@ -428,7 +440,7 @@ const Guidebook = styled.div`
     ". title title ."
     ". forBook forWorker .";
   @media ${device.mobileS} {
-    font-size: 6px;
+    font-size: 10px;
     h2 {
       font-size: 24px;
       line-height: 24px;
@@ -447,7 +459,7 @@ const Guidebook = styled.div`
   }
 
   @media ${device.mobileM} {
-    font-size: 8px;
+    font-size: 12px;
     h2 {
       font-size: 26px;
       line-height: 26px;
@@ -466,7 +478,7 @@ const Guidebook = styled.div`
   }
 
   @media ${device.mobileL} {
-    font-size: 10px;
+    font-size: 12px;
     h2 {
       font-size: 30px;
       line-height: 30px;
@@ -482,6 +494,24 @@ const Guidebook = styled.div`
         line-height: 12px;
       }
     }
+  }
+
+  @media (max-width: 520px) {
+    .main-guidebook-for-book {
+      padding-bottom: 5vw;
+      border-right: 0;
+      border-bottom: 1px solid black;
+    }
+    .main-guidebook-for-worker {
+      padding-top: 5vw;
+      padding-bottom: 5vw;
+    }
+    grid-template-columns: 10% 80% 10%;
+    grid-template-rows: auto;
+    grid-template-areas:
+      ". title ."
+      ". forBook ."
+      ". forWorker .";
   }
 
   // 768
@@ -592,7 +622,7 @@ const SupportBlock = styled.div`
   flex-direction: column;
   align-items: center;
   @media ${device.mobileS} {
-    font-size: 6px;
+    font-size: 10px;
     h2 {
       font-size: 20px;
       line-height: 20px;
@@ -606,7 +636,7 @@ const SupportBlock = styled.div`
   }
 
   @media ${device.mobileM} {
-    font-size: 8px;
+    font-size: 12px;
     h2 {
       font-size: 24px;
       line-height: 24px;
@@ -620,7 +650,7 @@ const SupportBlock = styled.div`
   }
 
   @media ${device.mobileL} {
-    font-size: 10px;
+    font-size: 12px;
     h2 {
       font-size: 28px;
       line-height: 28px;
