@@ -1,5 +1,5 @@
 import AuthContext from "../../../context/AuthContext";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { device } from "../../styled-components/size";
@@ -7,7 +7,8 @@ import MenuIcon from "../../../static/images/MenuIcon.svg";
 import Home from "../../../static/images/Home.svg";
 import BackMenu from "../../../static/images/NavBarSmallBack.svg";
 
-const HeaderStyled = styled.div`
+const HeaderStyled = styled.div<{ back?: boolean }>`
+  background: ${(props) => (props.back ? "#172024" : null)};
   height: 5vh;
   padding: 3vh 5vw 3vh 5vw;
   display: flex;
@@ -194,7 +195,8 @@ const HeaderStyled = styled.div`
   }
 `;
 
-const HeaderSmall = styled.div`
+const HeaderSmall = styled.div<{ back?: boolean }>`
+  background: ${(props) => (props.back ? "#172024" : null)};
   padding: 3vh 5vw 3vh 5vw;
   display: flex;
   align-items: center;
@@ -217,10 +219,10 @@ const HeaderSmall = styled.div`
   }
 `;
 
-const HeaderSmallMenu = styled.div<{ open?: boolean }>`
-  // width: ${(props) => (props.open ? "320px" : "0")};
+const HeaderSmallMenu = styled.div`
+  z-index: 1000;
   width: 320px;
-  height: 100vh;
+  height: 100%;
   position: fixed;
   top: 0;
   right: 0;
@@ -238,6 +240,10 @@ const HeaderSmallMenu = styled.div<{ open?: boolean }>`
     height: auto;
   }
   h2 {
+    a {
+      text-decoration: none;
+      color: #253256;
+    }
     font-family: "Russo One";
     font-style: normal;
     font-weight: 400;
@@ -270,7 +276,9 @@ const HeaderSmallMenu = styled.div<{ open?: boolean }>`
       line-height: 22px;
       text-align: center;
       letter-spacing: 0.05em;
-      color: #253256;
+      a {
+        color: #253256;
+      }
     }
   }
   .header-menu-auth {
@@ -319,12 +327,12 @@ const HeaderSmallMenu = styled.div<{ open?: boolean }>`
   }
 `;
 
-const Header = () => {
+const Header = (props: { back?: boolean }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const auth = useContext(AuthContext);
-  if (window.innerWidth <= 768 && !openMenu) {
+  if (window.innerWidth <= 1024 && !openMenu) {
     return (
-      <HeaderSmall>
+      <HeaderSmall back={props.back}>
         <Link to="/">
           <h1>BilWork</h1>
         </Link>
@@ -334,7 +342,7 @@ const Header = () => {
   } else if (openMenu) {
     return (
       <>
-        <HeaderSmall>
+        <HeaderSmall back={props.back}>
           <Link to="/">
             <h1>BilWork</h1>
           </Link>
@@ -344,25 +352,39 @@ const Header = () => {
           <img alt="close-menu" src={Home} onClick={() => setOpenMenu(false)} />
           <div className="header-menu-auth">
             <div className="header-menu-login">
-              <label>Увійти</label>
+              <Link to="/profil">
+                <label>Увійти</label>
+              </Link>
             </div>
             <div className="header-menu-signUp">
-              <label>Зареєструватися</label>
+              <Link to="/profil/signup">
+                <label>Зареєструватися</label>
+              </Link>
             </div>
           </div>
           <div className="header-menu-links">
-            <label>Про нас</label>
-            <label>Список</label>
-            <label>Обрані</label>
-            <label>Контaкти</label>
+            <label>
+              <Link to="/">Про нас</Link>
+            </label>
+            <label>
+              <Link to="/profil">Список</Link>
+            </label>
+            <label>
+              <Link to="/selected">Обрані</Link>
+            </label>
+            <label>
+              <Link to="/">Контaкти</Link>
+            </label>
           </div>
-          <h2>Bilwork</h2>
+          <h2>
+            <Link to="/">Bilwork</Link>
+          </h2>
         </HeaderSmallMenu>
       </>
     );
   }
   return (
-    <HeaderStyled>
+    <HeaderStyled back={props.back}>
       <Link to="/">
         <h1>BilWork</h1>
       </Link>

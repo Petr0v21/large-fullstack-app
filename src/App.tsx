@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./styles/main.css";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Header from "./app/component/Header";
@@ -14,10 +14,26 @@ import { useAuth } from "./hooks/auth.hook";
 import { useSelect } from "./hooks/selectPost.hook";
 
 const App = () => {
+  const [size, setSize] = useState({
+    height: window.innerHeight,
+    width: window.innerWidth,
+  });
+  useEffect(() => {
+    const handleResize = () => {
+      setSize({
+        height: window.innerHeight,
+        width: window.innerWidth,
+      });
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  });
   const { token, login, logout, userName } = useAuth();
   const { addId, deleteId } = useSelect();
   const isAuthenticated = !!token;
-  console.log(userName);
+  // console.log(userName);
   const check = async () => {
     await fetch("http://localhost:5000/api/user/info", {
       method: "GET",

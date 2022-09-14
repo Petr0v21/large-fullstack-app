@@ -73,63 +73,116 @@ const FooterStyled = styled.div`
   }
 
   @media ${device.mobileS} {
+    // label {
+    //   font-size: 6px;
+    // }
+    // h2 {
+    //   font-size: 16px;
+    //   line-height: 20px;
+    // }
+    // h3 {
+    //   font-size: 8px;
+    //   line-height: 10px;
+    // }
+    // .footer-support-block-icons {
+    //   img {
+    //     width: 12px;
+    //     height: 12px;
+    //   }
+    // }
     label {
-      font-size: 6px;
-    }
-    h2 {
-      font-size: 16px;
-      line-height: 20px;
-    }
-    h3 {
-      font-size: 8px;
-      line-height: 10px;
-    }
-    .footer-support-block-icons {
-      img {
-        width: 12px;
-        height: 12px;
+        font-size: 10px;
       }
-    }
+      h2 {
+        font-size: 24px;
+        line-height: 28px;
+      }
+      h3 {
+        font-size: 12px;
+        line-height: 14px;
+      }
+      .footer-support-block-icons {
+        img {
+          width: 20px;
+          height: 20px;
+        }
+      }
   }
 
   @media ${device.mobileM} {
+  //   label {
+  //     font-size: 8px;
+  //   }
+  //   h2 {
+  //     font-size: 20px;
+  //     line-height: 24px;
+  //   }
+  //   h3 {
+  //     font-size: 10px;
+  //     line-height: 12px;
+  //   }
+  //   .footer-support-block-icons {
+  //     img {
+  //       width: 14px;
+  //       height: 14px;
+  //     }
+  //   }
+  // }
+  label {
+    font-size: 10px;
+  }
+  h2 {
+    font-size: 28px;
+    line-height: 32px;
+  }
+  h3 {
+    font-size: 14px;
+    line-height: 18px;
+  }
+  .footer-support-block-icons {
+    img {
+      width: 25px;
+      height: 25px;
+    }
+  }
+}
+
+  @media ${device.mobileL} {
+    // label {
+    //   font-size: 10px;
+    // }
+    // h2 {
+    //   font-size: 24px;
+    //   line-height: 28px;
+    // }
+    // h3 {
+    //   font-size: 12px;
+    //   line-height: 14px;
+    // }
+    // .footer-support-block-icons {
+    //   img {
+    //     width: 16px;
+    //     height: 16px;
+    //   }
+    // }
     label {
-      font-size: 8px;
+      font-size: 12px;
     }
     h2 {
-      font-size: 20px;
-      line-height: 24px;
+      font-size: 28px;
+      line-height: 32px;
     }
     h3 {
-      font-size: 10px;
-      line-height: 12px;
+      font-size: 14px;
+      line-height: 18px;
     }
     .footer-support-block-icons {
       img {
-        width: 14px;
-        height: 14px;
+        width: 25px;
+        height: 25px;
       }
     }
   }
-
-  @media ${device.mobileL} {
-    label {
-      font-size: 10px;
-    }
-    h2 {
-      font-size: 24px;
-      line-height: 28px;
-    }
-    h3 {
-      font-size: 12px;
-      line-height: 14px;
-    }
-    .footer-support-block-icons {
-      img {
-        width: 16px;
-        height: 16px;
-      }
-    }
   }
 
   // 768
@@ -147,8 +200,8 @@ const FooterStyled = styled.div`
     }
     .footer-support-block-icons {
       img {
-        width: 20px;
-        height: 20px;
+        width: 25px;
+        height: 25px;
       }
     }
   }

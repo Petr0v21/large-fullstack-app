@@ -261,9 +261,11 @@ input[type="file"] {
 }
 
 .authpage {
+  min-height: calc(90vh - 15vh);
   display: flex;
   align-items: center;
   flex-direction: column;
+  justify-content: center;
 }
 
 .authpage form {
