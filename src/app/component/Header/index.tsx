@@ -6,6 +6,8 @@ import { device } from "../../styled-components/size";
 import MenuIcon from "../../../static/images/MenuIcon.svg";
 import Home from "../../../static/images/Home.svg";
 import BackMenu from "../../../static/images/NavBarSmallBack.svg";
+import ProfilIcon from "../../../static/images/ownerwhite.svg";
+import ProfilIconSmall from "../../../static/images/owner.svg";
 
 const HeaderStyled = styled.div<{ back?: boolean }>`
   background: ${(props) => (props.back ? "#172024" : null)};
@@ -57,6 +59,20 @@ const HeaderStyled = styled.div<{ back?: boolean }>`
     background: #5766ec;
     border-radius: 12px;
     letter-spacing: -0.05em;
+  }
+
+  .header-profil {
+    position: absolute;
+    right: 5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2vw;
+    color: white;
+    img {
+      width: 15px;
+      height: 17px;
+    }
   }
   // @media ${device.mobileS} {
   //   h1 {
@@ -305,6 +321,28 @@ const HeaderSmallMenu = styled.div`
         color: #5766ec;
       }
     }
+    .header-profil-small {
+      display: flex;
+      align-items: center;
+      gap: 2vw;
+      color: #5766ec;
+      label {
+        font-family: "Montserrat";
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 22px;
+        text-align: center;
+        letter-spacing: 0.05em;
+        a {
+          color: #253256;
+        }
+      }
+      img {
+        width: 15px;
+        height: 17px;
+      }
+    }
     .header-menu-signUp {
       display: flex;
       align-items: center;
@@ -329,6 +367,7 @@ const HeaderSmallMenu = styled.div`
 
 const Header = (props: { back?: boolean }) => {
   const [openMenu, setOpenMenu] = useState(false);
+
   const auth = useContext(AuthContext);
   if (window.innerWidth <= 1024 && !openMenu) {
     return (
@@ -350,18 +389,26 @@ const Header = (props: { back?: boolean }) => {
         </HeaderSmall>
         <HeaderSmallMenu>
           <img alt="close-menu" src={Home} onClick={() => setOpenMenu(false)} />
-          <div className="header-menu-auth">
-            <div className="header-menu-login">
-              <Link to="/profil">
-                <label>Увійти</label>
-              </Link>
+          {auth?.token ? (
+            <Link to="/profil" className="header-profil-small">
+              <label>{auth.userName}</label>
+              <img alt="profil-icon" src={ProfilIconSmall} />
+            </Link>
+          ) : (
+            <div className="header-menu-auth">
+              <div className="header-menu-login">
+                <Link to="/profil">
+                  <label>Увійти</label>
+                </Link>
+              </div>
+              <div className="header-menu-signUp">
+                <Link to="/profil/signup">
+                  <label>Зареєструватися</label>
+                </Link>
+              </div>
             </div>
-            <div className="header-menu-signUp">
-              <Link to="/profil/signup">
-                <label>Зареєструватися</label>
-              </Link>
-            </div>
-          </div>
+          )}
+
           <div className="header-menu-links">
             <label>
               <Link to="/">Про нас</Link>
@@ -396,14 +443,17 @@ const Header = (props: { back?: boolean }) => {
       </div>
 
       {auth?.token ? (
-        <Link to="/profil">{auth.userName}</Link>
+        <Link to="/profil" className="header-profil">
+          {auth.userName}
+          <img alt="profil-icon" src={ProfilIcon} />
+        </Link>
       ) : (
         <div className="header-auth">
           <div className="header-login">
             <Link to="/profil">Увійти</Link>
           </div>
           <div className="header-signIn">
-            <Link to="/profil/">Зареєструватись</Link>
+            <Link to="/profil/signup">Зареєструватись</Link>
           </div>
         </div>
       )}

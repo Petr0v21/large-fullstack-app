@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./styles/main.css";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Header from "./app/component/Header";
-import Footer from "./app/component/Footer";
 import Auth from "./pages/Auth";
 import SelectedPosts from "./pages/SelectedPosts";
 import Profil from "./pages/Profil";
@@ -12,6 +10,7 @@ import AuthContext from "./context/AuthContext";
 import PostsContext from "./context/PostsContext";
 import { useAuth } from "./hooks/auth.hook";
 import { useSelect } from "./hooks/selectPost.hook";
+import CreatePost from "./pages/CreatePost";
 
 const App = () => {
   const [size, setSize] = useState({
@@ -33,9 +32,8 @@ const App = () => {
   const { token, login, logout, userName } = useAuth();
   const { addId, deleteId } = useSelect();
   const isAuthenticated = !!token;
-  // console.log(userName);
   const check = async () => {
-    await fetch("http://localhost:5000/api/user/info", {
+    await fetch("https://desolate-island-05088.herokuapp.com/api/user/info", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -74,7 +72,8 @@ const App = () => {
         </div> */}
         <div className="main-content">
           <Routes>
-            <Route path="/*" element={<Main />} />
+            <Route path="/*" element={<List />} />
+            <Route path="/list" element={<CreatePost />} />
             <Route path="/selected/*" element={<SelectedPosts />} />
             {isAuthenticated ? (
               <Route path="/profil/*" element={<Profil />} />
@@ -83,16 +82,7 @@ const App = () => {
             )}
           </Routes>
         </div>
-        {/* <Footer /> */}
       </PostsContext.Provider>
-      {/* <button
-        onClick={() => {
-          console.log(token);
-          logout();
-        }}
-      >
-        CleanStorage
-      </button> */}
     </AuthContext.Provider>
   );
 };

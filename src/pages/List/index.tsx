@@ -1,42 +1,37 @@
 import FullPost from "../../app/component/FullPost";
-import PostSmall from "../../app/component/PostSmall";
 import { observer } from "mobx-react";
-import React, { useEffect } from "react";
-import store from "../../stores/listStore";
+import React from "react";
 import { Route, Routes } from "react-router";
+import Header from "../../app/component/Header";
+import Footer from "../../app/component/Footer";
+import ListPosts from "../../app/component/ListPosts";
+import styled from "styled-components";
+
+const ListBody = styled.div`
+  min-height: calc(90vh - 15vh);
+  h2 {
+    font-family: "Russo One";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 48px;
+    text-align: center;
+    color: #172024;
+  }
+`;
 
 const ListPost: React.FC = () => {
-  useEffect(() => {
-    store.getList();
-  }, []);
   return (
-    <div className="client-see-body">
-      <Routes>
-        <Route
-          path="*"
-          element={
-            <>
-              <div>Sorting</div>
-              {store.list.map((post) => (
-                <PostSmall key={post._id} post={post} />
-              ))}
-              <div className="Pages">
-                {store.pages.map((page) => (
-                  <div
-                    key={page}
-                    onClick={() => store.changePage(page)}
-                    className="PageButton"
-                  >
-                    {page}
-                  </div>
-                ))}
-              </div>
-            </>
-          }
-        />
-        <Route path=":id" element={<FullPost />} />
-      </Routes>
-    </div>
+    <>
+      <Header back={true} />
+      <ListBody>
+        <Routes>
+          <Route path="*" element={<ListPosts />} />
+          <Route path=":id" element={<FullPost />} />
+        </Routes>
+      </ListBody>
+      <Footer />
+    </>
   );
 };
 

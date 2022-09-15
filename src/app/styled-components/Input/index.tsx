@@ -23,6 +23,7 @@ export type InputProps = {
   store?: any;
   list?: any;
   valid?: any;
+  for?: any;
   children?: React.ReactNode;
 };
 

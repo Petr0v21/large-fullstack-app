@@ -12,7 +12,10 @@ class ListStore {
     url: [],
   };
   currentpage: any = 1;
-  filt = {};
+  filt = {
+    location: "",
+    category: "",
+  };
   constructor() {
     makeAutoObservable(this);
   }
@@ -21,11 +24,19 @@ class ListStore {
     this.filt = { ...this.filt, [event.target.name]: event.target.value };
   }
 
+  selectField(name: string, value: string) {
+    this.filt = { ...this.filt, [name]: value };
+    console.log(this.post);
+  }
+
   async getPost(id: string) {
     try {
-      await fetch(`http://localhost:5000/api/post/${id}`, {
-        method: "GET",
-      })
+      await fetch(
+        `https://desolate-island-05088.herokuapp.com/api/post/${id}`,
+        {
+          method: "GET",
+        }
+      )
         .then((response) => {
           return response.json();
         })
@@ -40,7 +51,7 @@ class ListStore {
 
   async getList() {
     try {
-      await fetch("http://localhost:5000/api/post/list", {
+      await fetch("https://desolate-island-05088.herokuapp.com/api/post/list", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
