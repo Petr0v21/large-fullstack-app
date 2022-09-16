@@ -32,7 +32,7 @@ class ListStore {
   async getPost(id: string) {
     try {
       await fetch(
-        `https://desolate-island-05088.herokuapp.com/api/post/${id}`,
+        `https://calm-brushlands-24620.herokuapp.com/https://desolate-island-05088.herokuapp.com/api/post/${id}`,
         {
           method: "GET",
         }
@@ -51,16 +51,19 @@ class ListStore {
 
   async getList() {
     try {
-      await fetch("https://desolate-island-05088.herokuapp.com/api/post/list", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          page: this.currentpage,
-          filter: this.filt,
-        }),
-      })
+      await fetch(
+        "https://calm-brushlands-24620.herokuapp.com/https://desolate-island-05088.herokuapp.com/api/post/list",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            page: this.currentpage,
+            // filter: this.filt,
+          }),
+        }
+      )
         .then((response) => {
           return response.json();
         })

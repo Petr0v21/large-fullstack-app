@@ -33,7 +33,7 @@ const App = () => {
   const { addId, deleteId } = useSelect();
   const isAuthenticated = !!token;
   const check = async () => {
-    await fetch("https://desolate-island-05088.herokuapp.com/api/user/info", {
+    await fetch("https://calm-brushlands-24620.herokuapp.com/https://desolate-island-05088.herokuapp.com/api/user/info", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

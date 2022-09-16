@@ -10,6 +10,7 @@ import {
 } from "../../styled-components/Select";
 import { InputComponentChildren } from "../../styled-components/Input";
 import { Button } from "../../styled-components/Button";
+import { device } from "../../styled-components/size";
 
 const ListPosts = styled.div`
   display: flex;
@@ -23,6 +24,39 @@ const ListPosts = styled.div`
     line-height: 48px;
     text-align: center;
     color: #172024;
+  }
+
+  @media ${device.mobileS} {
+    .list-title {
+      font-size: 24px;
+      line-height: 24px;
+    }
+  }
+
+  @media ${device.mobileM} {
+    .list-title {
+      font-size: 28px;
+      line-height: 28px;
+    }
+  }
+
+  @media ${device.tablet} {
+    .list-title {
+      font-size: 34px;
+      line-height: 34px;
+    }
+  }
+  @media ${device.laptop} {
+    .list-title {
+      font-size: 42px;
+      line-height: 42px;
+    }
+  }
+  @media ${device.laptopL} {
+    .list-title {
+      font-size: 48px;
+      line-height: 48px;
+    }
   }
 `;
 
@@ -53,7 +87,7 @@ const listPosts: React.FC = () => {
   }, []);
   return (
     <ListPosts>
-      <h2>Список оголошень</h2>
+      <h2 className="list-title">Список оголошень</h2>
       <SortBlock>
         <form className="filter-input-block">
           {/* <InputSelectDefault size="medium">

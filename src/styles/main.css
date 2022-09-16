@@ -257,7 +257,7 @@ input[type="file"] {
 
 .main-content {
   min-height: calc(90vh - 15vh);
-  background-color: whitesmoke;
+  background-color: white;
 }
 
 .authpage {
