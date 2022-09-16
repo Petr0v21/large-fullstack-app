@@ -3,9 +3,6 @@ import React, { useEffect, useState } from "react";
 import PostSmall from "../PostSmall";
 import store from "../../../stores/listStore";
 import styled from "styled-components";
-import OwnerIcon from "../../../static/images/owner.svg";
-import LocationIcon from "../../../static/images/Location.svg";
-import Tick from "../../../static/images/TickSquare.svg";
 // import SelectDefaultComponet from "../../styled-components/Select";
 import {
   InputSelectDefault,
@@ -13,6 +10,21 @@ import {
 } from "../../styled-components/Select";
 import { InputComponentChildren } from "../../styled-components/Input";
 import { Button } from "../../styled-components/Button";
+
+const ListPosts = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  h2 {
+    font-family: "Russo One";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 48px;
+    text-align: center;
+    color: #172024;
+  }
+`;
 
 const SortBlock = styled.div`
   height: auto;
@@ -29,71 +41,6 @@ const SortBlock = styled.div`
   }
 `;
 
-const ListPosts = styled.div`
-  background: #f5f6ff;
-  display: grid;
-
-  h3 {
-    font-family: "Montserrat";
-    font-style: normal;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 22px;
-    letter-spacing: -0.05em;
-    color: #172024;
-  }
-  h4 {
-    font-family: "Montserrat";
-    font-style: normal;
-    font-weight: 800;
-    font-size: 18px;
-    line-height: 22px;
-    text-align: center;
-    letter-spacing: -0.05em;
-    color: #5d5fef;
-  }
-  h5 {
-    font-family: "Montserrat";
-    font-style: normal;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 22px;
-    text-align: right;
-    letter-spacing: -0.05em;
-    color: #172024;
-  }
-  label {
-    font-family: "Montserrat";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 17px;
-    letter-spacing: -0.05em;
-    color: rgba(23, 32, 36, 0.6);
-    img {
-      width: 24px;
-      height: 24px;
-    }
-  }
-  .list-post-small-content-owner {
-    font-family: "Montserrat";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 17px;
-    letter-spacing: -0.05em;
-    color: #172024;
-    img {
-      width: 15px;
-      height: 17px;
-    }
-  }
-  img {
-    width: 24px;
-    height: 24px;
-  }
-`;
-
 const listPosts: React.FC = () => {
   let list = [
     "Будівництво",
@@ -101,11 +48,11 @@ const listPosts: React.FC = () => {
     "Тульчин, Тульчинський р-н, Вінницька обл.",
     "цфввцф",
   ];
-  // useEffect(() => {
-  //     store.getList();
-  //   }, []);
+  useEffect(() => {
+    store.getList();
+  }, []);
   return (
-    <>
+    <ListPosts>
       <h2>Список оголошень</h2>
       <SortBlock>
         <form className="filter-input-block">
@@ -172,24 +119,7 @@ const listPosts: React.FC = () => {
           <Button>Пошук</Button> */}
         </form>
       </SortBlock>
-      <ListPosts>
-        <h4>TOP</h4>
-        <div className="list-post-small-content">
-          <h3>KUNA Pay - платформа процессинга криптовалют</h3>
-          <h5>100 грн / м2</h5>
-          <label className="list-post-small-content-owner">
-            <img alt="location" src={OwnerIcon} />
-            Петров Вячеслав Сергійович
-          </label>
-          <label>Будівництво</label>
-          <label>
-            <img alt="location" src={LocationIcon} />
-            Тульчин, Тульчинський р-н, Вінницька обл.
-          </label>
-          <img alt="choose" src={Tick} />
-        </div>
-      </ListPosts>
-      {/* {store.list.map((post) => (
+      {store.list.map((post) => (
         <PostSmall key={post._id} post={post} />
       ))}
       <div className="Pages">
@@ -202,8 +132,8 @@ const listPosts: React.FC = () => {
             {page}
           </div>
         ))}
-      </div> */}
-    </>
+      </div>
+    </ListPosts>
   );
 };
 

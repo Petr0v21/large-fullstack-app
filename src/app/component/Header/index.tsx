@@ -230,6 +230,7 @@ const HeaderSmall = styled.div<{ back?: boolean }>`
     text-transform: uppercase;
   }
   img {
+    cursor: pointer;
     width: 30px;
     height: 15px;
   }
@@ -250,6 +251,7 @@ const HeaderSmallMenu = styled.div`
   // align-items: center;
   // justify-content: space-between;
   img {
+    cursor: pointer;
     align-self: center;
     margin-bottom: 10px;
     width: 30px;
@@ -269,6 +271,32 @@ const HeaderSmallMenu = styled.div`
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: #253256;
+  }
+  .header-profil-small {
+    padding: 2vh 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2vw;
+    color: #5766ec;
+    label {
+      cursor: pointer;
+      font-family: "Montserrat";
+      font-style: normal;
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 22px;
+      text-align: center;
+      letter-spacing: 0.05em;
+      a {
+        color: #253256;
+      }
+    }
+    img {
+      width: 15px;
+      height: 17px;
+      margin: 0;
+    }
   }
   .header-menu-links {
     padding: 20vh 0;
@@ -319,28 +347,6 @@ const HeaderSmallMenu = styled.div`
         text-align: center;
         letter-spacing: -0.05em;
         color: #5766ec;
-      }
-    }
-    .header-profil-small {
-      display: flex;
-      align-items: center;
-      gap: 2vw;
-      color: #5766ec;
-      label {
-        font-family: "Montserrat";
-        font-style: normal;
-        font-weight: 600;
-        font-size: 18px;
-        line-height: 22px;
-        text-align: center;
-        letter-spacing: 0.05em;
-        a {
-          color: #253256;
-        }
-      }
-      img {
-        width: 15px;
-        height: 17px;
       }
     }
     .header-menu-signUp {
