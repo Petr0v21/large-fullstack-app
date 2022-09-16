@@ -60,6 +60,7 @@ export const InputSelectDefault = styled.div<InputProps>`
   }
 
   .content p {
+    cursor: pointer;
     margin: 0;
     padding: 1em 0.5em;
     &:hover {

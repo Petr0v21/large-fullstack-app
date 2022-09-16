@@ -55,7 +55,7 @@ export const InputDefault = styled.div<InputProps>`
         width: 12px;
         height: 12px;
       }
-      padding: 8px;
+      padding: 0px;
   `;
       case "medium":
         return `

@@ -9,6 +9,7 @@ import { device } from "../../styled-components/size";
 const ListPosts = styled.div`
   width: 80%;
   padding-bottom: 2%;
+  margin-top: 2vw;
   background: #f5f6ff;
   display: grid;
   grid-template-columns: 10% 20% 20% 20% 20% 10%;
@@ -130,9 +131,6 @@ const ListPosts = styled.div`
     .list-post-small-content-category {
       padding-top: 1em;
     }
-    // .list-post-small-content-price {
-    //   font-size: 8px;
-    // }
     .list-post-small-content-choose-icon {
       img {
         width: 18px;
