@@ -33,12 +33,15 @@ const App = () => {
   const { addId, deleteId } = useSelect();
   const isAuthenticated = !!token;
   const check = async () => {
-    await fetch("https://calm-brushlands-24620.herokuapp.com/https://desolate-island-05088.herokuapp.com/api/user/info", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then((response) => {
+    await fetch(
+      "https://calm-brushlands-24620.herokuapp.com/https://desolate-island-05088.herokuapp.com/api/user/info",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    ).then((response) => {
       if (response.status === 401) {
         logout();
         return;
@@ -72,8 +75,8 @@ const App = () => {
         </div> */}
         <div className="main-content">
           <Routes>
-            <Route path="/*" element={<List />} />
-            <Route path="/list" element={<CreatePost />} />
+            <Route path="/*" element={<Main />} />
+            <Route path="/list" element={<List />} />
             <Route path="/selected/*" element={<SelectedPosts />} />
             {isAuthenticated ? (
               <Route path="/profil/*" element={<Profil />} />
