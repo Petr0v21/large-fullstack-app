@@ -5,8 +5,10 @@ import store from "../../../stores/listStore";
 import styled from "styled-components";
 import FilterBlock from "../Filter";
 import { device } from "../../styled-components/size";
+import { Pagination } from "../../styled-components/Pagination";
 import Filter from "../Filter";
 import CloseIcon from "../../../static/images/Union.svg";
+import ArrowPagin from "../../../static/images/ArrowPagin.svg";
 
 const ListPosts = styled.div`
   display: flex;
@@ -59,6 +61,20 @@ const ListPosts = styled.div`
     justify-content: space-between;
   }
 
+  .Pages {
+    display: flex;
+    align-items: center;
+    gap: 5vw;
+    padding: 5vw 0;
+    img {
+      width: 60px;
+      height: auto;
+      opacity: 0.7;
+    }
+    .arrow-left {
+      transform: rotate(180deg);
+    }
+  }
   @media ${device.mobileS} {
     .list-title {
       font-size: 24px;
@@ -189,15 +205,22 @@ const listPosts: React.FC = () => {
         <PostSmall key={post._id} post={post} />
       ))}
       <div className="Pages">
-        {store.pages.map((page) => (
-          <div
+        {store.pages.length != 0 ? (
+          <img alt="arrow-left" className="arrow-left" src={ArrowPagin} />
+        ) : undefined}
+        {store.pages.map((page, index) => (
+          <Pagination
             key={page}
             onClick={() => store.changePage(page)}
             className="PageButton"
+            current={store.currentpage === index + 1 ? true : false}
           >
-            {page}
-          </div>
+            <label>{page}</label>
+          </Pagination>
         ))}
+        {store.pages.length != 0 ? (
+          <img alt="arrow-right" className="arrow-right" src={ArrowPagin} />
+        ) : undefined}
       </div>
     </ListPosts>
   );

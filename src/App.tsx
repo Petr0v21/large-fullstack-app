@@ -75,8 +75,8 @@ const App = () => {
         </div> */}
         <div className="main-content">
           <Routes>
-            <Route path="/*" element={<Main />} />
-            <Route path="/list" element={<List />} />
+            <Route path="/" element={<Main />} />
+            <Route path="/list/*" element={<List />} />
             <Route path="/selected/*" element={<SelectedPosts />} />
             {isAuthenticated ? (
               <Route path="/profil/*" element={<Profil />} />

@@ -395,13 +395,13 @@ input[type="file"] {
   min-width: 5vw;
 }
 
-.full-post-content {
+/* .full-post-content {
   background-color: white;
   width: 750px;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
+} */
 
 .form-comment {
   display: flex;

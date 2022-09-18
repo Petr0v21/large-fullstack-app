@@ -9,6 +9,8 @@ class ListStore {
     price: "",
     category: "",
     location: "",
+    ownerName: "",
+    links: [],
     url: [],
   };
   currentpage: any = 1;
