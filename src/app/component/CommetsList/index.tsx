@@ -3,6 +3,8 @@ import store from "../../../stores/commentStore";
 import OwnerIcon from "../../../static/images/owner.svg";
 import Star from "../../../static/images/Star.svg";
 import StarOn from "../../../static/images/StarOn.svg";
+import Like from "../../../static/images/Heart.svg";
+import LikeOn from "../../../static/images/HeartOn.svg";
 import styled from "styled-components";
 import { observer } from "mobx-react";
 import { Rating } from "../../styled-components/Rating";
@@ -23,7 +25,7 @@ const CommentStyled = styled.div`
     letter-spacing: -0.05em;
     color: #172024;
   }
-  div {
+  .comment-main-content {
     display: flex;
     justify-content: space-between;
     margin-bottom: 2vw;
@@ -35,6 +37,17 @@ const CommentStyled = styled.div`
     img {
       width: 15px;
       height: 17px;
+    }
+  }
+  .comment-likes {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1vw;
+    img {
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
     }
   }
   @media ${device.mobileS} {
@@ -49,6 +62,12 @@ const CommentStyled = styled.div`
         height: 15px;
       }
     }
+    .comment-likes {
+      img {
+        width: 20px;
+        height: 20px;
+      }
+    }
   }
 
   @media ${device.mobileL} {
@@ -56,12 +75,24 @@ const CommentStyled = styled.div`
       font-size: 12px;
       line-height: 16px;
     }
+    .comment-likes {
+      img {
+        width: 21px;
+        height: 21px;
+      }
+    }
   }
 
   @media ${device.tablet} {
     label {
       font-size: 13px;
       line-height: 17px;
+    }
+    .comment-likes {
+      img {
+        width: 22px;
+        height: 22px;
+      }
     }
   }
 
@@ -77,14 +108,51 @@ const CommentStyled = styled.div`
         height: 17px;
       }
     }
+    .comment-likes {
+      img {
+        width: 24px;
+        height: 24px;
+      }
+    }
   }
 `;
 
 const Comment: React.FC<{ comment: any }> = (props) => {
   const [rating, setRating] = useState(props.comment.rating);
+  const [likes, setLikes] = useState(props.comment.likes || 0);
+  const changeHandlerLike = async () => {
+    try {
+      if (likes === props.comment.rating) {
+        setLikes(likes + 1);
+      } else {
+        setLikes(likes - 1);
+      }
+      await fetch(
+        `https://desolate-island-05088.herokuapp.com/api/post/comment/like`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: props.comment._id,
+            likes: likes,
+          }),
+        }
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+        });
+    } catch (error) {
+      throw error;
+    }
+  };
   return (
     <CommentStyled key={props.comment._id}>
-      <div>
+      <div className="comment-main-content">
         <label className="comment-owner">
           <img alt="owner" src={OwnerIcon} />
           {props.comment.name}
@@ -103,6 +171,14 @@ const Comment: React.FC<{ comment: any }> = (props) => {
         </Rating>
       </div>
       <label>{props.comment.text}</label>
+      <div className="comment-likes">
+        <label>{likes}</label>
+        <img
+          alt="Like"
+          src={likes === props.comment.rating ? Like : LikeOn}
+          onClick={() => changeHandlerLike()}
+        />
+      </div>
     </CommentStyled>
   );
 };
@@ -115,7 +191,7 @@ const OwnerPosts: React.FC<{ links: any }> = (props) => {
   return (
     <>
       {store.list.map((comment) => (
-        <Comment comment={comment} />
+        <Comment comment={comment} key={comment._id} />
       ))}
     </>
   );

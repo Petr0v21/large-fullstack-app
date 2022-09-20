@@ -170,6 +170,7 @@ const AboutUsStyled = styled.div`
     height: 36px;
     margin: 0;
     margin-bottom: 2vh;
+    text-align: center;
   }
   .main-aboutUs-title {
     text-align: center;
@@ -187,6 +188,7 @@ const AboutUsStyled = styled.div`
     grid-area: statistics;
     display: flex;
     justify-content: space-around;
+    text-align: center;
   }
   .main-aboutUs-large-text {
     margin-top: 5vh;

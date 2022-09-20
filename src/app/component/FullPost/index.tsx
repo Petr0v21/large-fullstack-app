@@ -231,6 +231,7 @@ const ContentFullPost = styled.div`
       display: flex;
       align-items: center;
       flex-direction: column;
+      text-align: center;
       width: 100%;
       .post-text-owner {
         width: auto;
