@@ -338,7 +338,7 @@ const PostSmall: React.FC<{ post: any }> = (props) => {
   return (
     <ListPosts>
       <h4 className="list-post-small-top">TOP</h4>
-      <Link to={`${props.post._id}`}>
+      <Link to={`/list/${props.post._id}`}>
         <h3 className="list-post-small-content-title">{props.post.title}</h3>
       </Link>
       <h5 className="list-post-small-content-price">{props.post.price} / м2</h5>

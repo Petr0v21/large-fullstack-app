@@ -14,6 +14,25 @@ const FilterBlockStyled = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  label {
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 2vw 1vw;
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 16px;
+    text-align: center;
+    letter-spacing: -0.05em;
+    color: #000000;
+    transition: all 0.2s linear;
+    &:hover {
+      opacity: 0.6;
+    }
+  }
   .filter-input-block {
     padding-bottom: 5vh;
     display: flex;
@@ -26,11 +45,16 @@ const FilterBlockStyled = styled.div`
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between;
     gap: 1vw;
   }
 
   @media (max-width: 620px) {
+    label {
+      padding: 1vw;
+      font-size: 13px;
+      line-height: 13px;
+    }
     .filter-input-block {
       align-items: center;
       flex-direction: column;
@@ -198,6 +222,7 @@ const SelectSmall = styled.div<InputProps>`
 `;
 
 const SortBlock: React.FC = () => {
+  const [bigSearch, setBigSearch] = useState(false);
   const [size, setSize] = useState({
     height: window.innerHeight,
     width: window.innerWidth,
@@ -298,132 +323,159 @@ const SortBlock: React.FC = () => {
             Пошук
           </Button>
         </div>
-        <div className="filter-select-block">
-          <SelectSmall size="small">
-            <div className="select-input">
-              <input
-                name="location"
-                value={store.filt.location}
-                onChange={(event) => store.addField(event)}
-                placeholder="location"
-                autoComplete="off"
-                required
-              />
-              <img src={arrow} alt="img" onClick={() => console.log("Click")} />
-            </div>
-            <div className="content">
-              {list
-                .filter((arg) =>
-                  arg
-                    .toLocaleLowerCase()
-                    .includes(store.post.location.toLocaleLowerCase())
-                )
-                .map((arg) => (
-                  <p
-                    onClick={() => {
-                      store.selectField("location", arg);
-                    }}
-                    key={arg}
-                  >
-                    {arg}
-                  </p>
-                ))}
-            </div>
-          </SelectSmall>
-          <SelectSmall size="small">
-            <div className="select-input">
-              <input
-                name="location"
-                value={store.filt.location}
-                onChange={(event) => store.addField(event)}
-                placeholder="location"
-                autoComplete="off"
-                required
-              />
-              <img src={arrow} alt="img" onClick={() => console.log("Click")} />
-            </div>
-            <div className="content">
-              {list
-                .filter((arg) =>
-                  arg
-                    .toLocaleLowerCase()
-                    .includes(store.post.location.toLocaleLowerCase())
-                )
-                .map((arg) => (
-                  <p
-                    onClick={() => {
-                      store.selectField("location", arg);
-                    }}
-                    key={arg}
-                  >
-                    {arg}
-                  </p>
-                ))}
-            </div>
-          </SelectSmall>
-          <SelectSmall size="small">
-            <div className="select-input">
-              <input
-                name="location"
-                value={store.filt.location}
-                onChange={(event) => store.addField(event)}
-                placeholder="location"
-                autoComplete="off"
-                required
-              />
-              <img src={arrow} alt="img" onClick={() => console.log("Click")} />
-            </div>
-            <div className="content">
-              {list
-                .filter((arg) =>
-                  arg
-                    .toLocaleLowerCase()
-                    .includes(store.post.location.toLocaleLowerCase())
-                )
-                .map((arg) => (
-                  <p
-                    onClick={() => {
-                      store.selectField("location", arg);
-                    }}
-                    key={arg}
-                  >
-                    {arg}
-                  </p>
-                ))}
-            </div>
-          </SelectSmall>
-          <SelectSmall size="small">
-            <div className="select-input">
-              <input
-                name="location"
-                value={store.filt.location}
-                onChange={(event) => store.addField(event)}
-                placeholder="location"
-                autoComplete="off"
-                required
-              />
-              <img src={arrow} alt="img" onClick={() => console.log("Click")} />
-            </div>
-            <div className="content">
-              {list
-                .filter((arg) =>
-                  arg
-                    .toLocaleLowerCase()
-                    .includes(store.post.location.toLocaleLowerCase())
-                )
-                .map((arg) => (
-                  <p
-                    onClick={() => {
-                      store.selectField("location", arg);
-                    }}
-                    key={arg}
-                  >
-                    {arg}
-                  </p>
-                ))}
-            </div>
-          </SelectSmall>
-        </div>
+        {window.innerWidth <= 928 && !bigSearch ? (
+          <label onClick={() => setBigSearch(true)}>
+            Розширенний пошук ...
+          </label>
+        ) : (
+          <div className="filter-select-block">
+            <SelectSmall size="small">
+              <div className="select-input">
+                <input
+                  name="location"
+                  value={store.filt.location}
+                  onChange={(event) => store.addField(event)}
+                  placeholder="location"
+                  autoComplete="off"
+                  required
+                />
+                <img
+                  src={arrow}
+                  alt="img"
+                  onClick={() => console.log("Click")}
+                />
+              </div>
+              <div className="content">
+                {list
+                  .filter((arg) =>
+                    arg
+                      .toLocaleLowerCase()
+                      .includes(store.post.location.toLocaleLowerCase())
+                  )
+                  .map((arg) => (
+                    <p
+                      onClick={() => {
+                        store.selectField("location", arg);
+                      }}
+                      key={arg}
+                    >
+                      {arg}
+                    </p>
+                  ))}
+              </div>
+            </SelectSmall>
+            <SelectSmall size="small">
+              <div className="select-input">
+                <input
+                  name="location"
+                  value={store.filt.location}
+                  onChange={(event) => store.addField(event)}
+                  placeholder="location"
+                  autoComplete="off"
+                  required
+                />
+                <img
+                  src={arrow}
+                  alt="img"
+                  onClick={() => console.log("Click")}
+                />
+              </div>
+              <div className="content">
+                {list
+                  .filter((arg) =>
+                    arg
+                      .toLocaleLowerCase()
+                      .includes(store.post.location.toLocaleLowerCase())
+                  )
+                  .map((arg) => (
+                    <p
+                      onClick={() => {
+                        store.selectField("location", arg);
+                      }}
+                      key={arg}
+                    >
+                      {arg}
+                    </p>
+                  ))}
+              </div>
+            </SelectSmall>
+            <SelectSmall size="small">
+              <div className="select-input">
+                <input
+                  name="location"
+                  value={store.filt.location}
+                  onChange={(event) => store.addField(event)}
+                  placeholder="location"
+                  autoComplete="off"
+                  required
+                />
+                <img
+                  src={arrow}
+                  alt="img"
+                  onClick={() => console.log("Click")}
+                />
+              </div>
+              <div className="content">
+                {list
+                  .filter((arg) =>
+                    arg
+                      .toLocaleLowerCase()
+                      .includes(store.post.location.toLocaleLowerCase())
+                  )
+                  .map((arg) => (
+                    <p
+                      onClick={() => {
+                        store.selectField("location", arg);
+                      }}
+                      key={arg}
+                    >
+                      {arg}
+                    </p>
+                  ))}
+              </div>
+            </SelectSmall>
+            <SelectSmall size="small">
+              <div className="select-input">
+                <input
+                  name="location"
+                  value={store.filt.location}
+                  onChange={(event) => store.addField(event)}
+                  placeholder="location"
+                  autoComplete="off"
+                  required
+                />
+                <img
+                  src={arrow}
+                  alt="img"
+                  onClick={() => console.log("Click")}
+                />
+              </div>
+              <div className="content">
+                {list
+                  .filter((arg) =>
+                    arg
+                      .toLocaleLowerCase()
+                      .includes(store.post.location.toLocaleLowerCase())
+                  )
+                  .map((arg) => (
+                    <p
+                      onClick={() => {
+                        store.selectField("location", arg);
+                      }}
+                      key={arg}
+                    >
+                      {arg}
+                    </p>
+                  ))}
+              </div>
+            </SelectSmall>
+          </div>
+        )}
+        {bigSearch ? (
+          <label onClick={() => setBigSearch(false)}>
+            Приховати розширенний пошук
+          </label>
+        ) : null}
       </form>
     </FilterBlockStyled>
   );

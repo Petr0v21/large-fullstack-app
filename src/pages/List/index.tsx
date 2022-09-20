@@ -27,7 +27,7 @@ const ListPost: React.FC = () => {
       <ListBody>
         <Routes>
           <Route path="*" element={<ListPosts />} />
-          <Route path=":id" element={<FullPost />} />
+          <Route path=":id/*" element={<FullPost />} />
         </Routes>
       </ListBody>
       <Footer />

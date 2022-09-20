@@ -8,6 +8,7 @@ class CommentStore {
     name: "",
     text: "",
   };
+  list: any[] = [];
   constructor() {
     makeAutoObservable(this);
   }
@@ -35,6 +36,29 @@ class CommentStore {
         })
         .then((data) => {
           console.log(data);
+        });
+    } catch (error) {
+      throw error;
+    }
+  }
+  async getCommentList(id: any) {
+    try {
+      await fetch(
+        `https://desolate-island-05088.herokuapp.com/api/post/getcomment`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ids: id }),
+        }
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          this.list = data;
+          console.log(this.list);
         });
     } catch (error) {
       throw error;

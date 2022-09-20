@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { Route, Routes, useParams } from "react-router";
 import FormComment from "../FormComment";
 import postStore from "../../../stores/listStore";
 import styled from "styled-components";
@@ -8,13 +8,15 @@ import OwnerIcon from "../../../static/images/IconOwnerBig.svg";
 import LocationIcon from "../../../static/images/Location.svg";
 import ArrowPagin from "../../../static/images/ArrowPagin.svg";
 import { device } from "../../styled-components/size";
+import { Link } from "react-router-dom";
+import CommentList from "../CommetsList";
 
 const ContentFullPost = styled.div`
   padding: 5vw 5%;
   font-family: "Montserrat";
   font-style: normal;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   gap: 4%;
   color: #172024;
@@ -409,20 +411,34 @@ const ContentFullPost = styled.div`
   }
 `;
 
-const AddInfPost = styled.div`
+const AddInfPost = styled.div<{ active?: boolean }>`
   .post-menu {
+    width: 60%;
+    margin: 0 20%;
+    padding: 1vw 0;
     display: flex;
     align-items: center;
     justify-content: space-around;
+    // border-bottom: 1px solid black;
     label {
-      font-family: "Montserrat";
-      font-style: normal;
-      font-weight: 400;
-      font-size: 18px;
-      line-height: 22px;
-      text-align: center;
-      letter-spacing: -0.05em;
-      color: #172024;
+      a {
+        font-family: "Montserrat";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 22px;
+        text-align: center;
+        letter-spacing: -0.05em;
+        color: #172024;
+        padding: 0.5vw;
+        border-bottom: 1px solid rgba(23, 32, 36, 0);
+        transition: all 0.2s linear;
+        &:hover {
+          border-bottom: 1px solid rgba(23, 32, 36, 1);
+        }
+        ${(props) =>
+          props.active ? "border-bottom: 1px solid rgba(23, 32, 36, 1);" : ""}
+      }
     }
   }
   @media ${device.mobileS} {
@@ -592,6 +608,7 @@ const Gallary = styled.div`
 
 const UsersPost: React.FC = () => {
   const [slid, setSLid] = useState(1);
+  const [active, setActive] = useState(false);
   const { id } = useParams<{ id: string }>();
   useEffect(() => {
     postStore.getPost(id!);
@@ -656,16 +673,28 @@ const UsersPost: React.FC = () => {
           </label>
         </div>
       </ContentFullPost>
-      <AddInfPost>
+      <AddInfPost active={active}>
         <div className="post-menu">
-          <label>Оголошення цього автора</label>
-          <label>Коментарі {`(${postStore.post.links.length})`}</label>
+          <label>
+            <Link
+              to={active ? "" : "comments"}
+              onClick={() => setActive(!active)}
+            >
+              Коментарі {`(${postStore.post.links.length})`}
+            </Link>
+          </label>
         </div>
+        <Routes>
+          <Route
+            path="/comments"
+            element={<CommentList links={postStore.post.links} />}
+          />
+        </Routes>
       </AddInfPost>
-      <div className="comment-container">
-        <h3>Залишити коментар</h3>
-        <FormComment id={id!} />
-      </div>
+      {/* <div className="comment-container"> */}
+      {/* <h3>Залишити коментар</h3> */}
+      <FormComment id={id!} />
+      {/* </div> */}
     </div>
   );
 };

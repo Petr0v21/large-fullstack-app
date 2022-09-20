@@ -10,9 +10,11 @@ class ListStore {
     category: "",
     location: "",
     ownerName: "",
+    owner: "",
     links: [],
     url: [],
   };
+  ownerPosts: any[] = [];
   currentpage: any = 1;
   filt = {
     location: "",
@@ -62,7 +64,6 @@ class ListStore {
           },
           body: JSON.stringify({
             page: this.currentpage,
-            // filter: this.filt,
           }),
         }
       )
@@ -73,6 +74,33 @@ class ListStore {
           console.log(data);
           this.list = data.list;
           this.pages = data.pages;
+        });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getOwnerList(owner: any) {
+    try {
+      console.log(owner);
+      await fetch(
+        "https://calm-brushlands-24620.herokuapp.com/https://desolate-island-05088.herokuapp.com/api/post/ownerposts",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user: owner,
+          }),
+        }
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+          this.ownerPosts = data;
         });
     } catch (error) {
       throw error;
