@@ -421,7 +421,7 @@ const Header = (props: { back?: boolean }) => {
               <Link to="/">Про нас</Link>
             </label>
             <label>
-              <Link to="/profil">Список</Link>
+              <Link to="/list">Список</Link>
             </label>
             <label>
               <Link to="/selected">Обрані</Link>
