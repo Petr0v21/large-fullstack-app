@@ -7,7 +7,7 @@ export const useSelect = () => {
 
   const addId = useCallback((idPost: string) => {
     ids.push(idPost);
-    if (ids.length < 5) {
+    if (ids.length <= 5) {
       localStorage.setItem(
         storageName,
         JSON.stringify({

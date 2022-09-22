@@ -288,6 +288,7 @@ const HeaderSmallMenu = styled.div`
       line-height: 22px;
       text-align: center;
       letter-spacing: 0.05em;
+      color: #253256;
       a {
         color: #253256;
       }

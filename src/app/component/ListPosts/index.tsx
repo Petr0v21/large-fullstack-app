@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import PostSmall from "../PostSmall";
 import store from "../../../stores/listStore";
 import styled from "styled-components";

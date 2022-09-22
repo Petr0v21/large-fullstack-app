@@ -15,6 +15,8 @@ import {
 } from "../../styled-components/Select";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { CreateUpdatePostStyled } from "../../../pages/CreatePost";
 
 const UserUpdatePost: React.FC<{}> = (props) => {
   const { id } = useParams<{ id: string }>();
@@ -30,7 +32,7 @@ const UserUpdatePost: React.FC<{}> = (props) => {
     "цфввцф",
   ];
   return (
-    <form
+    <CreateUpdatePostStyled
       onSubmit={async (event) => {
         event.preventDefault();
         await store.updatePost(auth?.token, id!);
@@ -38,8 +40,10 @@ const UserUpdatePost: React.FC<{}> = (props) => {
         navigate("/profil/posts");
       }}
     >
-      <Link to="/profil/posts">Go Back</Link>
-      <InputComponentChildren size="medium">
+      <Link to="/profil/posts">Повернутись до списка</Link>
+      <InputComponentChildren
+        size={window.innerWidth <= 928 ? "medium" : "large"}
+      >
         <input
           name="title"
           value={store.updatedPost.title}
@@ -48,126 +52,132 @@ const UserUpdatePost: React.FC<{}> = (props) => {
           required
         />
       </InputComponentChildren>
-      <SelectDefault size="medium">
-        <InputComponentChildren size="medium" img>
-          <input
-            name="category"
-            value={store.updatedPost.category}
-            onChange={(event) => store.addField(event)}
-            placeholder="category"
-            autoComplete="off"
-            required
-          />
-        </InputComponentChildren>
-        <div className="content">
-          {list.map((arg) => (
-            <p
-              onClick={() => {
-                store.selectField("category", arg);
-              }}
-              key={arg}
+      <div className="post-top">
+        <div className="post-inputs">
+          <SelectDefault size={window.innerWidth <= 928 ? "small" : "medium"}>
+            <InputComponentChildren
+              size={window.innerWidth <= 928 ? "small" : "medium"}
+              img
             >
-              {arg}
-            </p>
-          ))}
+              <input
+                name="category"
+                value={store.updatedPost.category}
+                onChange={(event) => store.addField(event)}
+                placeholder="category"
+                autoComplete="off"
+                required
+              />
+            </InputComponentChildren>
+            <div className="content">
+              {list.map((arg) => (
+                <p
+                  onClick={() => {
+                    store.selectField("category", arg);
+                  }}
+                  key={arg}
+                >
+                  {arg}
+                </p>
+              ))}
+            </div>
+          </SelectDefault>
+          <InputSelectDefault
+            size={window.innerWidth <= 928 ? "small" : "medium"}
+          >
+            <InputComponentChildren
+              size={window.innerWidth <= 928 ? "small" : "medium"}
+              img
+            >
+              <input
+                name="location"
+                value={store.updatedPost.location}
+                onChange={(event) => store.addField(event)}
+                placeholder="location"
+                autoComplete="off"
+                required
+              />
+            </InputComponentChildren>
+            <div className="content">
+              {list
+                .filter((arg) =>
+                  arg
+                    .toLocaleLowerCase()
+                    .includes(store.updatedPost.location.toLocaleLowerCase())
+                )
+                .map((arg) => (
+                  <p
+                    onClick={() => {
+                      store.selectField("location", arg);
+                    }}
+                    key={arg}
+                  >
+                    {arg}
+                  </p>
+                ))}
+            </div>
+          </InputSelectDefault>
+          <InputComponentChildren
+            size={window.innerWidth <= 928 ? "small" : "medium"}
+          >
+            <input
+              name="price"
+              value={store.updatedPost.price}
+              onChange={(event) => store.addField(event)}
+              placeholder="price"
+              required
+            />
+          </InputComponentChildren>
         </div>
-      </SelectDefault>
-      <InputSelectDefault size="medium">
-        <InputComponentChildren size="medium" img>
-          <input
-            name="location"
-            value={store.updatedPost.location}
+        <TextAreaStyled
+          heightauto={window.innerWidth >= 572 ? true : false}
+          size={window.innerWidth <= 724 ? "small" : "medium"}
+        >
+          <textarea
+            name="description"
+            value={store.updatedPost.description}
             onChange={(event) => store.addField(event)}
-            placeholder="location"
-            autoComplete="off"
+            placeholder="description"
             required
           />
-        </InputComponentChildren>
-        <div className="content">
-          {list
-            .filter((arg) =>
-              arg
-                .toLocaleLowerCase()
-                .includes(store.updatedPost.location.toLocaleLowerCase())
-            )
-            .map((arg) => (
-              <p
-                onClick={() => {
-                  store.selectField("location", arg);
-                }}
-                key={arg}
-              >
-                {arg}
-              </p>
-            ))}
-        </div>
-      </InputSelectDefault>
-      <InputComponentChildren size="medium">
-        <input
-          name="price"
-          value={store.updatedPost.price}
-          onChange={(event) => store.addField(event)}
-          placeholder="price"
-          required
-        />
-      </InputComponentChildren>
-      <TextAreaStyled size="medium">
-        <textarea
-          name="description"
-          value={store.updatedPost.description}
-          onChange={(event) => store.addField(event)}
-          placeholder="description"
-          required
-        />
-      </TextAreaStyled>
-      {/* <input
-        name="title"
-        value={store.updatedPost.title}
-        onChange={(e) => store.addField(e)}
-      /> */}
-      {store.updatedPost.url.map((link: any, index: number) => (
-        <div key={"selectedimages" + link} className="ImageChoose">
-          {/* key={store.updatedPost.images[index] + index}  */}
-          <img src={link} />
-          <div
-            className="Button_Delete"
-            onClick={() => {
-              store.addDeleteImage(store.updatedPost.images[index]);
-            }}
-          >
-            Delete
-          </div>
-        </div>
-      ))}
-      <input
-        className="custom-file-input"
-        value=""
-        type="file"
-        name="file"
-        multiple
-        accept="image/png, image/jpeg"
-        onChange={(event) => {
-          store.addImage(event);
-          console.log(event);
-        }}
-      />
-      <div className="GallaryChoose">
-        {store.files.map((img, index) => (
-          <div key={"Images" + index} className="ImageChoose">
-            <img alt="uploadImage" src={URL.createObjectURL(img)} />
-            <div
-              className="Button_Delete"
+        </TextAreaStyled>
+      </div>
+
+      <div className="post-gallary-block">
+        <div className="post-gallary-image">
+          {store.updatedPost.url.map((link: any, index: number) => (
+            <img
+              src={link}
+              key={"selectedimages" + link}
+              onClick={() => {
+                store.addDeleteImage(store.updatedPost.images[index]);
+              }}
+            />
+          ))}
+          {store.files.map((img, index) => (
+            <img
+              alt="uploadImage"
+              src={URL.createObjectURL(img)}
               onClick={() => {
                 store.cleanSelectedImage(index);
               }}
-            >
-              Clear
-            </div>
-          </div>
-        ))}
+            />
+          ))}
+        </div>
+        <input
+          className="custom-file-input"
+          value=""
+          type="file"
+          name="file"
+          multiple
+          accept="image/png, image/jpeg"
+          onChange={(event) => {
+            store.addImage(event);
+            console.log(event);
+          }}
+        />
       </div>
-      <Button>Update Post</Button>
-    </form>
+      <Button className="button-send">Оновити оголошення</Button>
+    </CreateUpdatePostStyled>
   );
 };
 

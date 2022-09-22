@@ -8,6 +8,7 @@ class UserStore {
     age: "",
     addInf: "",
   };
+  userPhoto: any;
   posts = [
     {
       _id: "",
@@ -58,6 +59,11 @@ class UserStore {
       this.files.push(event.target.files[i]);
     }
     console.log(this.files);
+  }
+
+  addPhotoUser(event: any) {
+    this.userPhoto = event.target.files[0];
+    console.log(this.userPhoto);
   }
 
   setDeltedId(id: string) {

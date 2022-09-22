@@ -187,12 +187,21 @@ input[type="file"] {
   /* color: transparent; */
   width: 120px;
 }
+/* .custom-file-input-test {
+  height: 100%;
+  width: 200px;
+  background: #172024;
+}
+.custom-file-input-test::-webkit-file-upload-button {
+  visibility: hidden;
+  width: 200px;
+} */
 
 .custom-file-input::-webkit-file-upload-button {
   visibility: hidden;
 }
 .custom-file-input::before {
-  content: "Select some files";
+  content: "Обрати фото 📸";
   display: inline-block;
   background: linear-gradient(top, #f9f9f9, #e3e3e3);
   border: 1px solid #999;
@@ -275,7 +284,7 @@ input[type="file"] {
   gap: 5px;
 }
 
-.profil {
+/* .profil {
   display: flex;
 }
 
@@ -338,7 +347,7 @@ input[type="file"] {
   flex-direction: column;
   align-items: center;
   gap: 5px;
-}
+} */
 
 .post-small {
   width: calc(750px - 2em);

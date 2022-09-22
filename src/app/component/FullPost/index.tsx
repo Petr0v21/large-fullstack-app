@@ -30,6 +30,7 @@ const ContentFullPost = styled.div`
       font-weight: 500;
       font-size: 24px;
       line-height: 28px;
+      text-align: start;
       margin: 0;
     }
     h4 {
@@ -228,6 +229,9 @@ const ContentFullPost = styled.div`
   @media (max-width: 520px) {
     flex-direction: column;
     .post-text {
+      h2 {
+        text-align: center;
+      }
       display: flex;
       align-items: center;
       flex-direction: column;

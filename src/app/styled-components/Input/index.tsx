@@ -25,6 +25,8 @@ export type InputProps = {
   valid?: any;
   for?: any;
   children?: React.ReactNode;
+  heightauto?: any;
+  width?: string;
 };
 
 export const InputDefault = styled.div<InputProps>`
@@ -83,6 +85,7 @@ export const InputDefault = styled.div<InputProps>`
   `;
     }
   }}
+  ${(props) => (props.width ? `width: ${props.width};` : "")}
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -116,7 +119,7 @@ export const InputDefault = styled.div<InputProps>`
 export const TextAreaStyled = styled.div<InputProps>`
   // width: 250px;
   width: 360px;
-  height: 90px;
+  ${(props) => (props.heightauto ? "" : "height: 90px;")}
   font-size: 12px;
   ${(props) => {
     switch (props.size) {

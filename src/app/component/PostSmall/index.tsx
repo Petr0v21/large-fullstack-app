@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import OwnerIcon from "../../../static/images/owner.svg";
 import LocationIcon from "../../../static/images/Location.svg";
 import Tick from "../../../static/images/TickSquare.svg";
+import TickOn from "../../../static/images/Plus.svg";
 import styled from "styled-components";
 import { device } from "../../styled-components/size";
+import PostsContext from "../../../context/PostsContext";
+import storeUser from "../../../stores/userStore";
+import AuthContext from "../../../context/AuthContext";
+import { Button } from "../../styled-components/Button";
 
 const ListPosts = styled.div`
   width: 80%;
@@ -37,10 +42,16 @@ const ListPosts = styled.div`
     display: flex;
     justify-content: flex-end;
     img {
+      cursor: pointer;
       width: 24px;
       height: 24px;
     }
     grid-area: choose;
+    .list-post-small-content-user {
+      display: flex;
+      align-items: center;
+      gap: 2vw;
+    }
   }
   .list-post-small-content-owner {
     display: flex;
@@ -333,12 +344,27 @@ const ListPosts = styled.div`
   }
 `;
 
-const PostSmall: React.FC<{ post: any }> = (props) => {
+const PostSmall: React.FC<{ post: any; user?: boolean }> = (props) => {
+  const auth = useContext(AuthContext);
+  const context = useContext(PostsContext);
+  const [selected, setSelect] = useState(false);
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("selectedPosts") as string);
+    if (data && data.ids.length !== 0) {
+      if (data.ids.find((id: any) => id === props.post._id)) setSelect(true);
+    }
+  }, []);
   console.log(props.post);
   return (
     <ListPosts>
       <h4 className="list-post-small-top">TOP</h4>
-      <Link to={`/list/${props.post._id}`}>
+      <Link
+        to={
+          props.user
+            ? `/profil/posts/${props.post._id}`
+            : `/list/${props.post._id}`
+        }
+      >
         <h3 className="list-post-small-content-title">{props.post.title}</h3>
       </Link>
       <h5 className="list-post-small-content-price">{props.post.price} / м2</h5>
@@ -354,25 +380,29 @@ const PostSmall: React.FC<{ post: any }> = (props) => {
         {props.post.location}
       </label>
       <div className="list-post-small-content-choose-icon">
-        <img alt="choose" src={Tick} />
+        {selected ? (
+          <img
+            alt="choose"
+            src={Tick}
+            onClick={() => {
+              setSelect(false);
+              context?.deleteId(props.post._id);
+              console.log(selected);
+            }}
+          />
+        ) : (
+          <img
+            alt="choose"
+            src={TickOn}
+            onClick={() => {
+              setSelect(true);
+              context?.addId(props.post._id);
+              console.log(selected);
+            }}
+          />
+        )}
       </div>
     </ListPosts>
-    // <div className="post-small">
-    //   <img src={props.post.url[0]} />
-    //   <div className="post-small-content">
-    //     <div className="rating">
-    //       <h4>{props.post.rating.average}</h4>
-    //       <label>К-ть:{props.post.rating.amount}</label>
-    //     </div>
-    //     <Link to={`${props.post._id}`}>{props.post.title}</Link>
-    //     <div className="post-small-tags">
-    //       <label>{props.post.category}</label>
-    //       <label>{props.post.location}</label>
-    //     </div>
-    //   </div>
-    //   <h3>{props.post.price}</h3>
-    //   <div className="post-small-owner"></div>
-    // </div>
   );
 };
 

@@ -23,9 +23,9 @@ class ListStore {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            page: this.currentpage,
+            // page: this.currentpage,
             ids: idPosts,
-            filter: this.filt,
+            // filter: this.filt,
           }),
         }
       )
@@ -35,7 +35,7 @@ class ListStore {
         .then((data) => {
           console.log(data);
           this.list = data.list;
-          this.pages = data.pages;
+          // this.pages = data.pages;
         });
     } catch (error) {
       throw error;

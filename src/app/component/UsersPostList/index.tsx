@@ -4,8 +4,16 @@ import React, { useEffect } from "react";
 import { useContext } from "react";
 import store from "../../../stores/userStore";
 import UserUpdatepost from "../UserUpdatePost";
-import UserPost from "../UserPost";
+import PostSmall from "../PostSmall";
 import { Routes, Route } from "react-router-dom";
+import styled from "styled-components";
+const UserPostListStyled = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 5vh 0;
+`;
 
 const UsersPostList: React.FC = () => {
   const auth = useContext(AuthContext);
@@ -13,7 +21,7 @@ const UsersPostList: React.FC = () => {
     store.getList(auth?.token);
   }, []);
   return (
-    <div>
+    <UserPostListStyled>
       <Routes>
         <Route
           path="*"
@@ -21,11 +29,7 @@ const UsersPostList: React.FC = () => {
             <>
               {store.posts.length >= 1
                 ? store.posts.map((post, index) => (
-                    <UserPost
-                      key={post._id + index}
-                      post={post}
-                      indexPost={index}
-                    />
+                    <PostSmall key={post._id + index} post={post} user={true} />
                   ))
                 : "List is Empty"}
             </>
@@ -33,7 +37,7 @@ const UsersPostList: React.FC = () => {
         />
         <Route path=":id" element={<UserUpdatepost />} />
       </Routes>
-    </div>
+    </UserPostListStyled>
   );
 };
 

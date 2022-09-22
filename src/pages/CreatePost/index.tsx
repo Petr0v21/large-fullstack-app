@@ -12,6 +12,66 @@ import {
   SelectDefault,
 } from "../../app/styled-components/Select";
 import { Button } from "../../app/styled-components/Button";
+import styled from "styled-components";
+import { device } from "../../app/styled-components/size";
+
+export const CreateUpdatePostStyled = styled.form`
+  width: 80%;
+  padding: 5vh 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4vw;
+  .post-top {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    .post-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 1vw;
+    }
+  }
+  .post-gallary-block {
+    width: 100%;
+    padding: 2vw;
+    background: #f5f6ff;
+    min-height: 20vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .post-gallary-image {
+      width: 100%;
+      min-height: 16vw;
+      padding-bottom: 2vw;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1vw;
+      img {
+        height: 14vw;
+        width: auto;
+        transition: all 0.2s linear;
+        &:hover {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+  .button-send {
+    width: 300px;
+  }
+
+  @media (max-width: 572px) {
+    gap: 2vw;
+    .post-top {
+      flex-direction: column;
+      flex-direction: column;
+      align-items: center;
+      gap: 1vw;
+    }
+  }
+`;
 
 const FormPost: React.FC = () => {
   const auth = useContext(AuthContext);
@@ -22,8 +82,7 @@ const FormPost: React.FC = () => {
     "цфввцф",
   ];
   return (
-    <form
-      className="formCreate"
+    <CreateUpdatePostStyled
       onSubmit={async (event) => {
         event.preventDefault();
         await store.createPost(auth?.token);
@@ -32,7 +91,10 @@ const FormPost: React.FC = () => {
       }}
     >
       <h2>Create Post</h2>
-      <InputComponentChildren size="medium">
+      {/* 860 */}
+      <InputComponentChildren
+        size={window.innerWidth <= 928 ? "medium" : "large"}
+      >
         <input
           name="title"
           value={store.post.title}
@@ -41,111 +103,126 @@ const FormPost: React.FC = () => {
           required
         />
       </InputComponentChildren>
-      <SelectDefault size="medium">
-        <InputComponentChildren size="medium" img>
-          <input
-            name="category"
-            value={store.post.category}
-            onChange={(event) => store.addField(event)}
-            placeholder="category"
-            autoComplete="off"
-            required
-          />
-        </InputComponentChildren>
-        <div className="content">
-          {list.map((arg) => (
-            <p
-              onClick={() => {
-                store.selectField("category", arg);
-              }}
-              key={arg}
+      <div className="post-top">
+        <div className="post-inputs">
+          <SelectDefault size={window.innerWidth <= 928 ? "small" : "medium"}>
+            <InputComponentChildren
+              size={window.innerWidth <= 928 ? "small" : "medium"}
+              img
             >
-              {arg}
-            </p>
-          ))}
+              <input
+                name="category"
+                value={store.post.category}
+                onChange={(event) => store.addField(event)}
+                placeholder="category"
+                autoComplete="off"
+                required
+              />
+            </InputComponentChildren>
+            <div className="content">
+              {list.map((arg) => (
+                <p
+                  onClick={() => {
+                    store.selectField("category", arg);
+                  }}
+                  key={arg}
+                >
+                  {arg}
+                </p>
+              ))}
+            </div>
+          </SelectDefault>
+          <InputSelectDefault
+            size={window.innerWidth <= 928 ? "small" : "medium"}
+          >
+            <InputComponentChildren
+              size={window.innerWidth <= 928 ? "small" : "medium"}
+              img
+            >
+              <input
+                name="location"
+                value={store.post.location}
+                onChange={(event) => store.addField(event)}
+                placeholder="location"
+                autoComplete="off"
+                required
+              />
+            </InputComponentChildren>
+            <div className="content">
+              {list
+                .filter((arg) =>
+                  arg
+                    .toLocaleLowerCase()
+                    .includes(store.post.location.toLocaleLowerCase())
+                )
+                .map((arg) => (
+                  <p
+                    onClick={() => {
+                      store.selectField("location", arg);
+                    }}
+                    key={arg}
+                  >
+                    {arg}
+                  </p>
+                ))}
+            </div>
+          </InputSelectDefault>
+          <InputComponentChildren
+            size={window.innerWidth <= 928 ? "small" : "medium"}
+          >
+            <input
+              name="price"
+              value={store.post.price}
+              onChange={(event) => store.addField(event)}
+              placeholder="price"
+              required
+            />
+          </InputComponentChildren>
         </div>
-      </SelectDefault>
-      <InputSelectDefault size="medium">
-        <InputComponentChildren size="medium" img>
-          <input
-            name="location"
-            value={store.post.location}
+        <TextAreaStyled
+          heightauto={window.innerWidth >= 572 ? true : false}
+          size={window.innerWidth <= 724 ? "small" : "medium"}
+        >
+          <textarea
+            name="description"
+            value={store.post.description}
             onChange={(event) => store.addField(event)}
-            placeholder="location"
-            autoComplete="off"
+            placeholder="description"
             required
           />
-        </InputComponentChildren>
-        <div className="content">
-          {list
-            .filter((arg) =>
-              arg
-                .toLocaleLowerCase()
-                .includes(store.post.location.toLocaleLowerCase())
-            )
-            .map((arg) => (
-              <p
-                onClick={() => {
-                  store.selectField("location", arg);
-                }}
-                key={arg}
-              >
-                {arg}
-              </p>
-            ))}
-        </div>
-      </InputSelectDefault>
-      <InputComponentChildren size="medium">
-        <input
-          name="price"
-          value={store.post.price}
-          onChange={(event) => store.addField(event)}
-          placeholder="price"
-          required
-        />
-      </InputComponentChildren>
-      <TextAreaStyled size="medium">
-        <textarea
-          name="description"
-          value={store.post.description}
-          onChange={(event) => store.addField(event)}
-          placeholder="description"
-          required
-        />
-      </TextAreaStyled>
-      <input
-        className="custom-file-input"
-        value=""
-        type="file"
-        name="file"
-        multiple
-        accept="image/png, image/jpeg"
-        onChange={(event) => {
-          if (store.files.length > 5) {
-            alert("Це більше за максимальну кількість фото, маскимум(5)");
-            return;
-          }
-          store.addImage(event);
-          console.log(event);
-        }}
-      />
-      <div className="GallaryChoose">
-        {store.files.map((img, index) => (
-          <div key={index} className="ImageChoose">
-            <img alt="uploadImage" src={URL.createObjectURL(img)} />
-            <div
-              className="Button_Delete"
+        </TextAreaStyled>
+      </div>
+      <div className="post-gallary-block">
+        <div className="post-gallary-image">
+          {store.files.map((img, index) => (
+            <img
+              alt="uploadImage"
+              src={URL.createObjectURL(img)}
               onClick={() => {
                 store.cleanSelectedImage(index);
               }}
-            >
-              Delete
-            </div>
-          </div>
-        ))}
+            />
+          ))}
+        </div>
+        <input
+          className="custom-file-input"
+          value=""
+          type="file"
+          name="file"
+          multiple
+          accept="image/png, image/jpeg"
+          onChange={(event) => {
+            if (store.files.length > 5) {
+              alert("Це більше за максимальну кількість фото, маскимум(5)");
+              return;
+            }
+            store.addImage(event);
+            console.log(event);
+          }}
+        />
       </div>
-      <Button>Create</Button>
-    </form>
+      <Button className="button-send">Створити оголошення</Button>
+    </CreateUpdatePostStyled>
   );
 };
 
