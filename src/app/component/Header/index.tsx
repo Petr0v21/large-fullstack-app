@@ -443,10 +443,10 @@ const Header = (props: { back?: boolean }) => {
         <h1>BilWork</h1>
       </Link>
       <div className="header-nav">
-        <Link to="/selected">Про нас</Link>
-        <Link to="/selected">Список</Link>
+        <Link to="/">Про нас</Link>
+        <Link to="/list">Список</Link>
         <Link to="/selected">Обрані</Link>
-        <Link to="/selected">Контакти</Link>
+        <Link to="/">Контакти</Link>
       </div>
 
       {auth?.token ? (
