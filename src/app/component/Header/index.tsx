@@ -1,6 +1,6 @@
 import AuthContext from "../../../context/AuthContext";
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { device } from "../../styled-components/size";
 import MenuIcon from "../../../static/images/MenuIcon.svg";
@@ -8,6 +8,8 @@ import Home from "../../../static/images/Home.svg";
 import BackMenu from "../../../static/images/NavBarSmallBack.svg";
 import ProfilIcon from "../../../static/images/ownerwhite.svg";
 import ProfilIconSmall from "../../../static/images/owner.svg";
+import * as Scroll from "react-scroll";
+import { Link as ScrollLink } from "react-scroll";
 
 const HeaderStyled = styled.div<{ back?: boolean }>`
   background: ${(props) => (props.back ? "#172024" : null)};
@@ -374,8 +376,9 @@ const HeaderSmallMenu = styled.div`
 
 const Header = (props: { back?: boolean }) => {
   const [openMenu, setOpenMenu] = useState(false);
-
+  const navigate = useNavigate();
   const auth = useContext(AuthContext);
+  const scroll = Scroll.animateScroll;
   if (window.innerWidth <= 1024 && !openMenu) {
     return (
       <HeaderSmall back={props.back}>
@@ -418,7 +421,20 @@ const Header = (props: { back?: boolean }) => {
 
           <div className="header-menu-links">
             <label>
-              <Link to="/">Про нас</Link>
+              <Link
+                to="/"
+                onClick={() => {
+                  navigate("/");
+                  scroll.scrollTo(400, {
+                    duration: 1000,
+                    delay: 100,
+                    smooth: true,
+                    spy: true,
+                  });
+                }}
+              >
+                Про нас
+              </Link>
             </label>
             <label>
               <Link to="/list">Список</Link>
@@ -427,7 +443,23 @@ const Header = (props: { back?: boolean }) => {
               <Link to="/selected">Обрані</Link>
             </label>
             <label>
-              <Link to="/">Контaкти</Link>
+              <Link
+                to="/"
+                onClick={async () => {
+                  navigate("/");
+                  setTimeout(
+                    () =>
+                      scroll.scrollToBottom({
+                        duration: 1500,
+                        delay: 100,
+                        smooth: true,
+                      }),
+                    100
+                  );
+                }}
+              >
+                Контaкти
+              </Link>
             </label>
           </div>
           <h2>
@@ -443,10 +475,39 @@ const Header = (props: { back?: boolean }) => {
         <h1>BilWork</h1>
       </Link>
       <div className="header-nav">
-        <Link to="/">Про нас</Link>
+        <Link
+          to="/"
+          onClick={() => {
+            navigate("/");
+            scroll.scrollTo(500, {
+              duration: 1000,
+              delay: 100,
+              smooth: true,
+              spy: true,
+            });
+          }}
+        >
+          Про нас
+        </Link>
         <Link to="/list">Список</Link>
         <Link to="/selected">Обрані</Link>
-        <Link to="/">Контакти</Link>
+        <Link
+          to="/"
+          onClick={async () => {
+            navigate("/");
+            setTimeout(
+              () =>
+                scroll.scrollToBottom({
+                  duration: 1500,
+                  delay: 100,
+                  smooth: true,
+                }),
+              100
+            );
+          }}
+        >
+          Контакти
+        </Link>
       </div>
 
       {auth?.token ? (

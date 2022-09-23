@@ -201,8 +201,12 @@ const FormUserInfo: React.FC = () => {
           </InputComponentChildren>
         </div>
         <div className="profil-info-image">
-          {image || store.userPhoto ? (
-            <img src={URL.createObjectURL(store.userPhoto)} />
+          {store.user.url != "" ? (
+            <img
+              src={
+                !image ? store.user.url : URL.createObjectURL(store.userPhoto)
+              }
+            />
           ) : (
             <img src={ImageDefault} />
           )}

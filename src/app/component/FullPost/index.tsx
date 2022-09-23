@@ -7,6 +7,7 @@ import styled from "styled-components";
 import OwnerIcon from "../../../static/images/IconOwnerBig.svg";
 import LocationIcon from "../../../static/images/Location.svg";
 import ArrowPagin from "../../../static/images/ArrowPagin.svg";
+import ImageDefault from "../../../static/images/ImageDefault.svg";
 import { device } from "../../styled-components/size";
 import { Link } from "react-router-dom";
 import CommentList from "../CommetsList";
@@ -612,18 +613,33 @@ const Gallary = styled.div`
 `;
 
 const UsersPost: React.FC = () => {
-  const [slid, setSLid] = useState(1);
+  const [slid, setSLid] = useState(0);
+  if (postStore.post.url.length > 0) {
+    setSLid(1);
+  }
   const [active, setActive] = useState(false);
   const { id } = useParams<{ id: string }>();
   useEffect(() => {
     postStore.getPost(id!);
   }, []);
+  useEffect(
+    () => () => {
+      console.log("unmount");
+      postStore.cleanPost();
+      console.log(postStore.post);
+    },
+    []
+  );
   return (
     <div>
       <ContentFullPost>
         <Gallary>
           <div className="post-gallary-img">
-            <img alt="image-post" src={postStore.post.url[slid - 1]} />
+            {postStore.post.url.length > 0 ? (
+              <img alt="image-post" src={postStore.post.url[slid - 1]} />
+            ) : (
+              <img alt="image-post" src={ImageDefault} />
+            )}
           </div>
           <div className="post-pagination">
             {slid <= 1 ? (
@@ -696,10 +712,7 @@ const UsersPost: React.FC = () => {
           />
         </Routes>
       </AddInfPost>
-      {/* <div className="comment-container"> */}
-      {/* <h3>Залишити коментар</h3> */}
       <FormComment id={id!} />
-      {/* </div> */}
     </div>
   );
 };

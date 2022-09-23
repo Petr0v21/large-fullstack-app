@@ -33,14 +33,25 @@ class ListStore {
     console.log(this.post);
   }
 
+  cleanPost() {
+    this.post = {
+      title: "",
+      description: "",
+      price: "",
+      category: "",
+      location: "",
+      ownerName: "",
+      owner: "",
+      links: [],
+      url: [],
+    };
+  }
+
   async getPost(id: string) {
     try {
-      await fetch(
-        `https://calm-brushlands-24620.herokuapp.com/https://desolate-island-05088.herokuapp.com/api/post/${id}`,
-        {
-          method: "GET",
-        }
-      )
+      await fetch(`http://localhost:7211/api/post/${id}`, {
+        method: "GET",
+      })
         .then((response) => {
           return response.json();
         })
@@ -55,18 +66,15 @@ class ListStore {
 
   async getList() {
     try {
-      await fetch(
-        "https://calm-brushlands-24620.herokuapp.com/https://desolate-island-05088.herokuapp.com/api/post/list",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            page: this.currentpage,
-          }),
-        }
-      )
+      await fetch("http://localhost:7211/api/post/list", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          page: this.currentpage,
+        }),
+      })
         .then((response) => {
           return response.json();
         })
@@ -83,18 +91,15 @@ class ListStore {
   async getOwnerList(owner: any) {
     try {
       console.log(owner);
-      await fetch(
-        "https://calm-brushlands-24620.herokuapp.com/https://desolate-island-05088.herokuapp.com/api/post/ownerposts",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user: owner,
-          }),
-        }
-      )
+      await fetch("http://localhost:7211/api/post/ownerposts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user: owner,
+        }),
+      })
         .then((response) => {
           return response.json();
         })

@@ -18,6 +18,11 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { CreateUpdatePostStyled } from "../../../pages/CreatePost";
 
+const ButtonDelete = styled.div`
+  padding: 1vw 2vw;
+  backgroun: whitesmoke;
+`;
+
 const UserUpdatePost: React.FC<{}> = (props) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -41,6 +46,17 @@ const UserUpdatePost: React.FC<{}> = (props) => {
       }}
     >
       <Link to="/profil/posts">Повернутись до списка</Link>
+      <ButtonDelete
+        onClick={async (event) => {
+          event.preventDefault();
+          console.log("Delete");
+          await storeList.deletePost(auth?.token, id!);
+          await storeList.getList(auth?.token);
+          navigate("/profil/posts");
+        }}
+      >
+        Видалити оголошення
+      </ButtonDelete>
       <InputComponentChildren
         size={window.innerWidth <= 928 ? "medium" : "large"}
       >

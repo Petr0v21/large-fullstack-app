@@ -1,6 +1,7 @@
 import CheckBoxComponet from "../../styled-components/SmallChecks";
 import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
+import postStore from "../../../stores/listStore";
 import store from "../../../stores/commentStore";
 import { Button } from "../../styled-components/Button";
 import {
@@ -13,6 +14,8 @@ import StarOn from "../../../static/images/StarOn.svg";
 import Send from "../../../static/images/Send.svg";
 import styled from "styled-components";
 import { device } from "../../styled-components/size";
+import { useNavigate } from "react-router";
+import { useParams } from "react-router";
 
 const FormCommentStyled = styled.form`
   background: #f5f6ff;
@@ -166,6 +169,9 @@ const FormComment: React.FC<{ id: string }> = (props) => {
     height: window.innerHeight,
     width: window.innerWidth,
   });
+  const { id } = useParams<{ id: string }>();
+  console.log(id);
+  const navigate = useNavigate();
   useEffect(() => {
     const handleResize = () => {
       setSize({
@@ -183,6 +189,10 @@ const FormComment: React.FC<{ id: string }> = (props) => {
       onSubmit={async (event) => {
         event.preventDefault();
         await store.postComment(props.id);
+        postStore.getPost(id!);
+        setRating(0);
+        setHover(0);
+        navigate(`/list/${id}`);
       }}
     >
       <h4>Створити коментарь</h4>

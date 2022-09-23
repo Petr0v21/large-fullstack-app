@@ -737,7 +737,7 @@ const MainPagePreviewComponent: React.FC = () => {
           <Link to="/list">Перейти до списку</Link>
         </div>
       </MainPagePreview>
-      <AboutUsStyled>
+      <AboutUsStyled id="about">
         <h2 className="main-aboutUs-title">Про нас</h2>
         <label className="main-aboutUs-shortDescription">
           Ми - група компаній під загальною назвою KUNA (далі - Ми, Наші). Кожна
@@ -795,7 +795,7 @@ const MainPagePreviewComponent: React.FC = () => {
         </div>
         {/* </div> */}
       </Guidebook>
-      <SupportBlock>
+      <SupportBlock id="contact">
         <h2>Залишилися запитання?</h2>
         <label>
           Відповідаємо протягом 30 секунд! Ми спілкуємося в зручних для вас

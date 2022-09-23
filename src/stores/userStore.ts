@@ -7,6 +7,7 @@ class UserStore {
     name: "",
     age: "",
     addInf: "",
+    url: "",
   };
   userPhoto: any;
   posts = [
@@ -99,7 +100,7 @@ class UserStore {
   //       for (let i = 0; i < this.files.length; i++) {
   //         form.append("image", this.files[i]);
   //       }
-  //       await fetch("https://desolate-island-05088.herokuapp.com/api/post/create", {
+  //       await fetch("http://localhost:7211/api/post/create", {
   //         method: "POST",
   //         headers: {
   //           Authorization: `Bearer ${token}`,
@@ -119,17 +120,21 @@ class UserStore {
 
   async updateUser(token: any) {
     try {
-      const data = await fetch(
-        "https://desolate-island-05088.herokuapp.com/api/user/updateUser",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(this.user),
-        }
-      )
+      const form = new FormData();
+      console.log("UPDATE POST <ID>", this.id);
+      Object.entries(this.user).map((val) => {
+        console.log(val);
+        form.append(`${val[0]}`, val[1]);
+      });
+      form.append("image", this.userPhoto);
+      const data = await fetch("http://localhost:7211/api/user/updateUser", {
+        method: "POST",
+        headers: {
+          // "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: form,
+      })
         .then((response) => {
           return response.json();
         })
@@ -143,7 +148,7 @@ class UserStore {
 
   async getUser(token: any) {
     try {
-      await fetch("https://desolate-island-05088.herokuapp.com/api/user/info", {
+      await fetch("http://localhost:7211/api/user/info", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -164,15 +169,12 @@ class UserStore {
 
   async getList(token: any) {
     try {
-      await fetch(
-        "https://desolate-island-05088.herokuapp.com/api/user/posts",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      await fetch("http://localhost:7211/api/user/posts", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
         .then((response) => {
           return response.json();
         })
@@ -187,17 +189,14 @@ class UserStore {
 
   async deletePost(token: any, id: string) {
     try {
-      await fetch(
-        "https://desolate-island-05088.herokuapp.com/api/post/delete",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ id: id }),
-        }
-      )
+      await fetch("http://localhost:7211/api/post/delete", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: id }),
+      })
         .then((response) => {
           return response.json();
         })
@@ -225,21 +224,19 @@ class UserStore {
       for (let i = 0; i < this.images.length; i++) {
         form.append("images", this.images[i]);
       }
-      await fetch(
-        "https://desolate-island-05088.herokuapp.com/api/post/update",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: form,
-        }
-      )
+      await fetch("http://localhost:7211/api/post/update", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: form,
+      })
         .then((response) => {
           return response.json();
         })
         .then((data) => {
           console.log(data);
+          alert(data.message);
         });
     } catch (error) {
       throw error;

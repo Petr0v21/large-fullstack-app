@@ -12,6 +12,11 @@ import { useAuth } from "./hooks/auth.hook";
 import { useSelect } from "./hooks/selectPost.hook";
 import CreatePost from "./pages/CreatePost";
 
+/// 2 task лайки (напевно лише для зареєстрованих юзерів) (3)
+/// 3 task фільтр для списка оголошень (3)
+/// 6 task силки на іконках соц мереж (4)
+/// 7 task силки якоря по головній сторінці (4)
+
 const App = () => {
   const [size, setSize] = useState({
     height: window.innerHeight,
@@ -33,15 +38,13 @@ const App = () => {
   const { addId, deleteId } = useSelect();
   const isAuthenticated = !!token;
   const check = async () => {
-    await fetch(
-      "https://calm-brushlands-24620.herokuapp.com/https://desolate-island-05088.herokuapp.com/api/user/info",
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ).then((response) => {
+    // "https://calm-brushlands-24620.herokuapp.com/https://desolate-island-05088.herokuapp.com/api/user/info",
+    await fetch("http://localhost:7211/api/user/info", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((response) => {
       if (response.status === 401) {
         logout();
         return;

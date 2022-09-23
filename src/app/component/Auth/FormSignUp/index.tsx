@@ -4,16 +4,18 @@ import store from "../../../../stores/authStore";
 import CheckBoxComponet from "../../../styled-components/SmallChecks";
 import { Button } from "../../../styled-components/Button";
 import { InputComponentChildren } from "../../../styled-components/Input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const FormSignUp: React.FC = (props) => {
   const [valid, setValid] = useState(false);
+  const navigate = useNavigate();
   return (
     <form
       onSubmit={async (event) => {
         event.preventDefault();
         if (store.user.password.length >= 6) {
           await store.signUp();
+          navigate("/profil");
         } else {
           setValid(true);
         }
