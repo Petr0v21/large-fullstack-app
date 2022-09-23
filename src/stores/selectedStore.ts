@@ -15,17 +15,20 @@ class ListStore {
 
   async getList(idPosts?: any) {
     try {
-      await fetch("http://localhost:7211/api/post/listselected", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          // page: this.currentpage,
-          ids: idPosts,
-          // filter: this.filt,
-        }),
-      })
+      await fetch(
+        "https://desolate-island-05088.herokuapp.com/api/post/listselected",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            // page: this.currentpage,
+            ids: idPosts,
+            // filter: this.filt,
+          }),
+        }
+      )
         .then((response) => {
           return response.json();
         })

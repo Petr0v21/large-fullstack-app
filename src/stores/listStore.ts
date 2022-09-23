@@ -49,9 +49,12 @@ class ListStore {
 
   async getPost(id: string) {
     try {
-      await fetch(`http://localhost:7211/api/post/${id}`, {
-        method: "GET",
-      })
+      await fetch(
+        `https://desolate-island-05088.herokuapp.com/api/post/${id}`,
+        {
+          method: "GET",
+        }
+      )
         .then((response) => {
           return response.json();
         })
@@ -66,7 +69,7 @@ class ListStore {
 
   async getList() {
     try {
-      await fetch("http://localhost:7211/api/post/list", {
+      await fetch("https://desolate-island-05088.herokuapp.com/api/post/list", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -91,15 +94,18 @@ class ListStore {
   async getOwnerList(owner: any) {
     try {
       console.log(owner);
-      await fetch("http://localhost:7211/api/post/ownerposts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user: owner,
-        }),
-      })
+      await fetch(
+        "https://desolate-island-05088.herokuapp.com/api/post/ownerposts",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user: owner,
+          }),
+        }
+      )
         .then((response) => {
           return response.json();
         })
