@@ -13,6 +13,15 @@ import { Link } from "react-router-dom";
 import CommentList from "../CommetsList";
 
 const ContentFullPost = styled.div`
+  animation: 3s show ease;
+  @keyframes show {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
   padding: 5vw 5%;
   font-family: "Montserrat";
   font-style: normal;
@@ -630,87 +639,99 @@ const UsersPost: React.FC = () => {
   );
   return (
     <div>
-      <ContentFullPost>
-        <Gallary>
-          <div className="post-gallary-img">
-            {postStore.post.url.length > 0 ? (
-              <img alt="image-post" src={postStore.post.url[slid - 1]} />
-            ) : (
-              <img alt="image-post" src={ImageDefault} />
-            )}
+      {postStore.loading.is() ? (
+        <div className="div-for-loader">
+          <div className="lds-facebook">
+            <div></div>
+            <div></div>
+            <div></div>
           </div>
-          <div className="post-pagination">
-            {slid <= 1 ? (
-              <img
-                alt="arrow-left"
-                className="arrow-left-disable"
-                src={ArrowPagin}
-              />
-            ) : (
-              <img
-                alt="arrow-left"
-                className="arrow-left"
-                src={ArrowPagin}
-                onClick={() => setSLid(slid - 1)}
-              />
-            )}
-            <label>
-              {slid} / {postStore.post.url.length}
-            </label>
-            {slid >= postStore.post.url.length ? (
-              <img
-                alt="arrow-right"
-                className="arrow-right-disable"
-                src={ArrowPagin}
-              />
-            ) : (
-              <img
-                alt="arrow-right"
-                className="arrow-right"
-                src={ArrowPagin}
-                onClick={() => setSLid(slid + 1)}
-              />
-            )}
-          </div>
-        </Gallary>
-        <div className="post-text">
-          <h2>{postStore.post.title}</h2>
-          <div className="post-text-owner">
-            <img alt="owner" src={OwnerIcon} />{" "}
-            <label>{postStore.post.ownerName}</label>
-          </div>
-          <label className="post-text-location">
-            <img alt="location" src={LocationIcon} />
-            {postStore.post.location}
-          </label>
-          <label className="post-text-category">
-            Категорія: <h6>{postStore.post.category}</h6>
-          </label>
-          <h4>Опис оголошення:</h4>
-          <label className="post-text-description">
-            {postStore.post.description}
-          </label>
         </div>
-      </ContentFullPost>
-      <AddInfPost active={active}>
-        <div className="post-menu">
-          <label>
-            <Link
-              to={active ? "" : "comments"}
-              onClick={() => setActive(!active)}
-            >
-              Коментарі {`(${postStore.post.links.length})`}
-            </Link>
-          </label>
-        </div>
-        <Routes>
-          <Route
-            path="/comments"
-            element={<CommentList links={postStore.post.links} />}
-          />
-        </Routes>
-      </AddInfPost>
-      <FormComment id={id!} />
+      ) : (
+        <>
+          <ContentFullPost>
+            <Gallary>
+              <div className="post-gallary-img">
+                {postStore.post.url.length > 0 ? (
+                  <img alt="image-post" src={postStore.post.url[slid - 1]} />
+                ) : (
+                  <img alt="image-post" src={ImageDefault} />
+                )}
+              </div>
+              <div className="post-pagination">
+                {slid <= 1 ? (
+                  <img
+                    alt="arrow-left"
+                    className="arrow-left-disable"
+                    src={ArrowPagin}
+                  />
+                ) : (
+                  <img
+                    alt="arrow-left"
+                    className="arrow-left"
+                    src={ArrowPagin}
+                    onClick={() => setSLid(slid - 1)}
+                  />
+                )}
+                <label>
+                  {slid} / {postStore.post.url.length}
+                </label>
+                {slid >= postStore.post.url.length ? (
+                  <img
+                    alt="arrow-right"
+                    className="arrow-right-disable"
+                    src={ArrowPagin}
+                  />
+                ) : (
+                  <img
+                    alt="arrow-right"
+                    className="arrow-right"
+                    src={ArrowPagin}
+                    onClick={() => setSLid(slid + 1)}
+                  />
+                )}
+              </div>
+            </Gallary>
+            <div className="post-text">
+              <h2>{postStore.post.title}</h2>
+              <div className="post-text-owner">
+                <img alt="owner" src={OwnerIcon} />{" "}
+                <label>{postStore.post.ownerName}</label>
+              </div>
+              <label className="post-text-location">
+                <img alt="location" src={LocationIcon} />
+                {postStore.post.location}
+              </label>
+              <label className="post-text-category">
+                Категорія: <h6>{postStore.post.category}</h6>
+              </label>
+              <h4>Опис оголошення:</h4>
+              <label className="post-text-description">
+                {postStore.post.description}
+              </label>
+            </div>
+          </ContentFullPost>
+          <AddInfPost active={active}>
+            <div className="post-menu">
+              <label>
+                <Link
+                  to={active ? "" : "comments"}
+                  onClick={() => setActive(!active)}
+                >
+                  Коментарі {`(${postStore.post.links.length})`}
+                </Link>
+              </label>
+            </div>
+            <Routes>
+              <Route
+                path="/comments"
+                element={<CommentList links={postStore.post.links} />}
+              />
+            </Routes>
+          </AddInfPost>
+          <FormComment id={id!} />
+        </>
+      )}
     </div>
   );
 };

@@ -12,6 +12,15 @@ import AuthContext from "../../../context/AuthContext";
 import { Button } from "../../styled-components/Button";
 
 const ListPosts = styled.div`
+  animation: 2s show ease;
+  @keyframes show {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
   width: 80%;
   padding-bottom: 2%;
   margin-top: 2vw;

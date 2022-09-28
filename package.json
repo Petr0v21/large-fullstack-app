@@ -28,6 +28,7 @@
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.4.5",
+    "mobx-loading-state": "^1.0.6",
     "papaparse": "^5.3.1",
     "prettier": "2.5.1",
     "react-router-dom": "^6.3.0",

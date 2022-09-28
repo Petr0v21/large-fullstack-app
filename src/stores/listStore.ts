@@ -1,6 +1,8 @@
 import { runInAction, makeAutoObservable } from "mobx";
+import { LoadingState } from "mobx-loading-state";
 
 class ListStore {
+  loading = new LoadingState();
   list: any[] = [];
   pages = [];
   post = {
@@ -63,7 +65,7 @@ class ListStore {
       console.log("get");
       if (this.filt.title.length >= 3) {
         await fetch(
-          `http://localhost:7211/api/post/search/${this.filt.title}`,
+          `https://desolate-island-05088.herokuapp.com/api/post/search/${this.filt.title}`,
           {
             method: "GET",
           }
@@ -85,10 +87,13 @@ class ListStore {
 
   async getPost(id: string) {
     try {
-      console.log("get");
-      await fetch(`http://localhost:7211/api/post/${id}`, {
-        method: "GET",
-      })
+      this.loading.on();
+      await fetch(
+        `https://desolate-island-05088.herokuapp.com/api/post/${id}`,
+        {
+          method: "GET",
+        }
+      )
         .then((response) => {
           return response.json();
         })
@@ -97,6 +102,7 @@ class ListStore {
           this.post = data;
           console.log(this.post);
         });
+      this.loading.off();
     } catch (error) {
       throw error;
     }
@@ -110,16 +116,20 @@ class ListStore {
       });
       console.log(actualfilt);
       if (Object.values(this.filt).find((val) => val !== "")) {
-        await fetch("http://localhost:7211/api/post/list", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            page: this.currentpage,
-            filter: actualfilt,
-          }),
-        })
+        this.loading.on();
+        await fetch(
+          "https://desolate-island-05088.herokuapp.com/api/post/list",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              page: this.currentpage,
+              filter: actualfilt,
+            }),
+          }
+        )
           .then((response) => {
             return response.json();
           })
@@ -128,16 +138,21 @@ class ListStore {
             this.list = data.list;
             this.pages = data.pages;
           });
+        this.loading.off();
       } else {
-        await fetch("http://localhost:7211/api/post/list", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            page: this.currentpage,
-          }),
-        })
+        this.loading.on();
+        await fetch(
+          "https://desolate-island-05088.herokuapp.com/api/post/list",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              page: this.currentpage,
+            }),
+          }
+        )
           .then((response) => {
             return response.json();
           })
@@ -146,6 +161,7 @@ class ListStore {
             this.list = data.list;
             this.pages = data.pages;
           });
+        this.loading.off();
       }
     } catch (error) {
       throw error;
@@ -155,15 +171,18 @@ class ListStore {
   async getOwnerList(owner: any) {
     try {
       console.log(owner);
-      await fetch("http://localhost:7211/api/post/ownerposts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user: owner,
-        }),
-      })
+      await fetch(
+        "https://desolate-island-05088.herokuapp.com/api/post/ownerposts",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user: owner,
+          }),
+        }
+      )
         .then((response) => {
           return response.json();
         })

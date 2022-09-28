@@ -40,7 +40,6 @@ export const CreateUpdatePostStyled = styled.form`
     align-items: center;
     a {
       cursor: pointer;
-
       padding: 0.5vw 1vw;
       border: 1px solid #172024;
       background: rgb(87 102 236 / 14%);

@@ -65,14 +65,17 @@ class updatePostStore {
 
   async getPost(token: any, id: string) {
     try {
-      await fetch("http://localhost:7211/api/user/onePost", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: id }),
-      })
+      await fetch(
+        "https://desolate-island-05088.herokuapp.com/api/user/onePost",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id: id }),
+        }
+      )
         .then((response) => {
           return response.json();
         })
@@ -104,13 +107,16 @@ class updatePostStore {
       for (let i = 0; i < this.images.length; i++) {
         form.append("images", this.images[i]);
       }
-      await fetch("http://localhost:7211/api/post/update", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: form,
-      })
+      await fetch(
+        "https://desolate-island-05088.herokuapp.com/api/post/update",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: form,
+        }
+      )
         .then((response) => {
           return response.json();
         })

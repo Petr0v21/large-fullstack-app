@@ -722,9 +722,22 @@ const SupportBlock = styled.div`
     }
   }
 `;
+const Animate = styled.div`
+  padding: 0;
+  margin: 0;
+  animation: 2s show ease;
+  @keyframes show {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+`;
 const MainPagePreviewComponent: React.FC = () => {
   return (
-    <>
+    <Animate>
       <MainPagePreview>
         <div className="header">
           <Header />
@@ -809,7 +822,7 @@ const MainPagePreviewComponent: React.FC = () => {
         </div>
       </SupportBlock>
       <Footer />
-    </>
+    </Animate>
   );
 };
 

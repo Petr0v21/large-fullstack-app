@@ -21,13 +21,16 @@ class CommentStore {
     this.comment.id = id;
     console.log(this.comment.id);
     try {
-      await fetch("http://localhost:7211/api/post/comment", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(this.comment),
-      })
+      await fetch(
+        "https://desolate-island-05088.herokuapp.com/api/post/comment",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(this.comment),
+        }
+      )
         .then((response) => {
           return response.json();
         })
@@ -48,13 +51,16 @@ class CommentStore {
   }
   async getCommentList(id: any) {
     try {
-      await fetch(`http://localhost:7211/api/post/getcomment`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ids: id }),
-      })
+      await fetch(
+        `https://desolate-island-05088.herokuapp.com/api/post/getcomment`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ids: id }),
+        }
+      )
         .then((response) => {
           return response.json();
         })

@@ -70,10 +70,8 @@ const App = () => {
           deleteId,
         }}
       >
-        {/* <div className="box"></div>
-        <div className="loader-container">
-          <div className="loader-1"></div>
-        </div> */}
+        {/* <div className="box"></div> */}
+
         <div className="main-content">
           <Routes>
             <Route path="/" element={<Main />} />

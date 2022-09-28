@@ -27,11 +27,25 @@ const UsersPostList: React.FC = () => {
           path="*"
           element={
             <>
-              {store.posts.length >= 1
-                ? store.posts.map((post, index) => (
-                    <PostSmall key={post._id + index} post={post} user={true} />
-                  ))
-                : "List is Empty"}
+              {store.loading.is() ? (
+                <div className="lds-facebook">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              ) : (
+                <>
+                  {store.posts.length >= 1
+                    ? store.posts.map((post, index) => (
+                        <PostSmall
+                          key={post._id + index}
+                          post={post}
+                          user={true}
+                        />
+                      ))
+                    : "List is Empty"}
+                </>
+              )}
             </>
           }
         />

@@ -219,6 +219,13 @@ const listPosts: React.FC = () => {
         </div>
         <h6>Оголошень знайдено: {store.list.length}</h6>
       </div>
+      {store.loading.is() && (
+        <div className="lds-facebook">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      )}
       {store.list.map((post) => (
         <PostSmall key={post._id} post={post} />
       ))}
