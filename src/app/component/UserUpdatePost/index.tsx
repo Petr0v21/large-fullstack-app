@@ -4,9 +4,11 @@ import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import store from "../../../stores/updatePostStore";
 import storeList from "../../../stores/userStore";
+import Arrow from "../../../static/images/ArrowPagin.svg";
 import {
   InputComponentChildren,
   TextAreaStyled,
+  InputSelectVal,
 } from "../../styled-components/Input";
 import { Button } from "../../styled-components/Button";
 import {
@@ -19,8 +21,25 @@ import styled from "styled-components";
 import { CreateUpdatePostStyled } from "../../../pages/CreatePost";
 
 const ButtonDelete = styled.div`
-  padding: 1vw 2vw;
-  backgroun: whitesmoke;
+  cursor: pointer;
+  border: 1px solid black;
+  text-align: center;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 2px solid #ffffff;
+  margin: 5px;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  background-color: #c92d67;
+  transition: all 0.2s linear;
+  &:hover {
+    background-color: rgba(231, 0, 96, 0.7);
+  }
+  &:active {
+    border: 2px solid #bdc3c7;
+    opacity: 0.35;
+  }
 `;
 
 const UserUpdatePost: React.FC<{}> = (props) => {
@@ -30,12 +49,8 @@ const UserUpdatePost: React.FC<{}> = (props) => {
   useEffect(() => {
     store.getPost(auth?.token, id!);
   }, []);
-  let list = [
-    "Будівництво",
-    "Ремонт квартир",
-    "Тульчин, Тульчинський р-н, Вінницька обл.",
-    "цфввцф",
-  ];
+  let listLocation = ["Тульчин, Тульчинський р-н, Вінницька обл."];
+  let list = ["Будівництво", "Ремонт квартир", "Проектування", "Дизайн"];
   return (
     <CreateUpdatePostStyled
       onSubmit={async (event) => {
@@ -45,18 +60,22 @@ const UserUpdatePost: React.FC<{}> = (props) => {
         navigate("/profil/posts");
       }}
     >
-      <Link to="/profil/posts">Повернутись до списка</Link>
-      <ButtonDelete
-        onClick={async (event) => {
-          event.preventDefault();
-          console.log("Delete");
-          await storeList.deletePost(auth?.token, id!);
-          await storeList.getList(auth?.token);
-          navigate("/profil/posts");
-        }}
-      >
-        Видалити оголошення
-      </ButtonDelete>
+      <div className="post-back">
+        <Link to="/profil/posts">
+          <img src={Arrow} alt="come-back" />
+        </Link>
+        <ButtonDelete
+          onClick={async (event) => {
+            event.preventDefault();
+            console.log("Delete");
+            await storeList.deletePost(auth?.token, id!);
+            await storeList.getList(auth?.token);
+            navigate("/profil/posts");
+          }}
+        >
+          Видалити оголошення
+        </ButtonDelete>
+      </div>
       <InputComponentChildren
         size={window.innerWidth <= 928 ? "medium" : "large"}
       >
@@ -114,7 +133,7 @@ const UserUpdatePost: React.FC<{}> = (props) => {
               />
             </InputComponentChildren>
             <div className="content">
-              {list
+              {listLocation
                 .filter((arg) =>
                   arg
                     .toLocaleLowerCase()
@@ -132,17 +151,24 @@ const UserUpdatePost: React.FC<{}> = (props) => {
                 ))}
             </div>
           </InputSelectDefault>
-          <InputComponentChildren
-            size={window.innerWidth <= 928 ? "small" : "medium"}
-          >
+          <InputSelectVal size={window.innerWidth <= 928 ? "small" : "medium"}>
             <input
-              name="price"
-              value={store.updatedPost.price}
+              type="number"
+              name="priceAmount"
+              value={store.updatedPost.priceAmount}
               onChange={(event) => store.addField(event)}
               placeholder="price"
               required
             />
-          </InputComponentChildren>
+            <input
+              type="text"
+              name="priceValue"
+              placeholder="грн/м2"
+              value={store.updatedPost.priceValue}
+              onChange={(event) => store.addField(event)}
+              required
+            />
+          </InputSelectVal>
         </div>
         <TextAreaStyled
           heightauto={window.innerWidth >= 572 ? true : false}

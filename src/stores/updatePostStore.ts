@@ -4,7 +4,8 @@ class updatePostStore {
   updatedPost = {
     title: "",
     description: "",
-    price: "",
+    priceAmount: "",
+    priceValue: "",
     category: "",
     location: "",
     images: [""],
@@ -64,24 +65,22 @@ class updatePostStore {
 
   async getPost(token: any, id: string) {
     try {
-      await fetch(
-        "https://desolate-island-05088.herokuapp.com/api/user/onePost",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ id: id }),
-        }
-      )
+      await fetch("http://localhost:7211/api/user/onePost", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: id }),
+      })
         .then((response) => {
           return response.json();
         })
         .then((data) => {
           console.log(data);
-
           this.updatedPost = data;
+          this.updatedPost.priceAmount = data.price.amount;
+          this.updatedPost.priceValue = data.price.value;
         });
     } catch (error) {
       throw error;
@@ -105,16 +104,13 @@ class updatePostStore {
       for (let i = 0; i < this.images.length; i++) {
         form.append("images", this.images[i]);
       }
-      await fetch(
-        "https://desolate-island-05088.herokuapp.com/api/post/update",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: form,
-        }
-      )
+      await fetch("http://localhost:7211/api/post/update", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: form,
+      })
         .then((response) => {
           return response.json();
         })

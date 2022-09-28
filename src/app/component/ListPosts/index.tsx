@@ -36,8 +36,13 @@ const ListPosts = styled.div`
   .list-choosed-select {
     padding-bottom: 1vw;
     width: 50%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1em;
     border-bottom: 1px solid black;
     label {
+      cursor: pointer;
       background: #f5f6ff;
       padding: 2px 4px;
       font-family: "Montserrat";
@@ -51,6 +56,10 @@ const ListPosts = styled.div`
         margin-left: 1vw;
         width: 10px;
         height: 10px;
+      }
+      transition: all 0.2s linear;
+      &:hover {
+        opacity: 0.6;
       }
     }
   }
@@ -194,10 +203,19 @@ const listPosts: React.FC = () => {
       <Filter />
       <div className="list-results">
         <div className="list-choosed-select">
-          <label>
-            Будівництво
-            <img alt="del" src={CloseIcon} />
-          </label>
+          {Object.entries(store.filt).map((val, index) => {
+            if (val[1] !== "") {
+              return (
+                <label
+                  key={val[1] + index + val[0]}
+                  onClick={() => store.selectField(`${val[0]}`, "")}
+                >
+                  {val[1]}
+                  <img alt="del" src={CloseIcon} />
+                </label>
+              );
+            }
+          })}
         </div>
         <h6>Оголошень знайдено: {store.list.length}</h6>
       </div>

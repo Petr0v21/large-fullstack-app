@@ -613,10 +613,8 @@ const Gallary = styled.div`
 `;
 
 const UsersPost: React.FC = () => {
-  const [slid, setSLid] = useState(0);
-  if (postStore.post.url.length > 0) {
-    setSLid(1);
-  }
+  console.log("mount");
+  const [slid, setSLid] = useState(1);
   const [active, setActive] = useState(false);
   const { id } = useParams<{ id: string }>();
   useEffect(() => {

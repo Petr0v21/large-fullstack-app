@@ -13,22 +13,19 @@ class ListStore {
     this.filt = { ...this.filt, [event.target.name]: event.target.value };
   }
 
-  async getList(idPosts?: any) {
+  async getList(idPosts?: any, cleanFunc?: any) {
     try {
-      await fetch(
-        "https://desolate-island-05088.herokuapp.com/api/post/listselected",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            // page: this.currentpage,
-            ids: idPosts,
-            // filter: this.filt,
-          }),
-        }
-      )
+      await fetch("http://localhost:7211/api/post/listselected", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          // page: this.currentpage,
+          ids: idPosts,
+          // filter: this.filt,
+        }),
+      })
         .then((response) => {
           return response.json();
         })
@@ -37,6 +34,14 @@ class ListStore {
           this.list = data.list;
           // this.pages = data.pages;
         });
+      if (idPosts.length !== this.list.length) {
+        idPosts.map((arg: any) => {
+          if (this.list.find((val) => val === arg)) {
+          } else {
+            cleanFunc(arg);
+          }
+        });
+      }
     } catch (error) {
       throw error;
     }

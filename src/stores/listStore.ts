@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { runInAction, makeAutoObservable } from "mobx";
 
 class ListStore {
   list: any[] = [];
@@ -6,7 +6,10 @@ class ListStore {
   post = {
     title: "",
     description: "",
-    price: "",
+    price: {
+      amount: 0,
+      value: "",
+    },
     category: "",
     location: "",
     ownerName: "",
@@ -16,10 +19,15 @@ class ListStore {
   };
   ownerPosts: any[] = [];
   currentpage: any = 1;
+
   filt = {
+    title: "",
     location: "",
     category: "",
+    price: "",
+    order: "",
   };
+  listTitle: any[] = [];
   constructor() {
     makeAutoObservable(this);
   }
@@ -37,7 +45,10 @@ class ListStore {
     this.post = {
       title: "",
       description: "",
-      price: "",
+      price: {
+        amount: 0,
+        value: "",
+      },
       category: "",
       location: "",
       ownerName: "",
@@ -47,20 +58,44 @@ class ListStore {
     };
   }
 
+  async getTitles() {
+    try {
+      console.log("get");
+      if (this.filt.title.length >= 3) {
+        await fetch(
+          `http://localhost:7211/api/post/search/${this.filt.title}`,
+          {
+            method: "GET",
+          }
+        )
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data);
+            this.listTitle = data;
+          });
+      } else {
+        this.listTitle = [];
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async getPost(id: string) {
     try {
-      await fetch(
-        `https://desolate-island-05088.herokuapp.com/api/post/${id}`,
-        {
-          method: "GET",
-        }
-      )
+      console.log("get");
+      await fetch(`http://localhost:7211/api/post/${id}`, {
+        method: "GET",
+      })
         .then((response) => {
           return response.json();
         })
         .then((data) => {
           console.log(data);
           this.post = data;
+          console.log(this.post);
         });
     } catch (error) {
       throw error;
@@ -69,23 +104,49 @@ class ListStore {
 
   async getList() {
     try {
-      await fetch("https://desolate-island-05088.herokuapp.com/api/post/list", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          page: this.currentpage,
-        }),
-      })
-        .then((response) => {
-          return response.json();
+      let actualfilt = {};
+      Object.entries(this.filt).map((val) => {
+        if (val[1] !== "") actualfilt = { ...actualfilt, [val[0]]: val[1] };
+      });
+      console.log(actualfilt);
+      if (Object.values(this.filt).find((val) => val !== "")) {
+        await fetch("http://localhost:7211/api/post/list", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            page: this.currentpage,
+            filter: actualfilt,
+          }),
         })
-        .then((data) => {
-          console.log(data);
-          this.list = data.list;
-          this.pages = data.pages;
-        });
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data);
+            this.list = data.list;
+            this.pages = data.pages;
+          });
+      } else {
+        await fetch("http://localhost:7211/api/post/list", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            page: this.currentpage,
+          }),
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data);
+            this.list = data.list;
+            this.pages = data.pages;
+          });
+      }
     } catch (error) {
       throw error;
     }
@@ -94,18 +155,15 @@ class ListStore {
   async getOwnerList(owner: any) {
     try {
       console.log(owner);
-      await fetch(
-        "https://desolate-island-05088.herokuapp.com/api/post/ownerposts",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user: owner,
-          }),
-        }
-      )
+      await fetch("http://localhost:7211/api/post/ownerposts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user: owner,
+        }),
+      })
         .then((response) => {
           return response.json();
         })

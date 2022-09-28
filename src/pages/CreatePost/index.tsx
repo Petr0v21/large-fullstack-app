@@ -6,6 +6,7 @@ import store from "../../stores/postStore";
 import InputComponent, {
   InputComponentChildren,
   TextAreaStyled,
+  InputSelectVal,
 } from "../../app/styled-components/Input";
 import {
   InputSelectDefault,
@@ -30,6 +31,30 @@ export const CreateUpdatePostStyled = styled.form`
       display: flex;
       flex-direction: column;
       gap: 1vw;
+    }
+  }
+  .post-back {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    a {
+      cursor: pointer;
+
+      padding: 0.5vw 1vw;
+      border: 1px solid #172024;
+      background: rgb(87 102 236 / 14%);
+      border-radius: 6px;
+      img {
+        transform: rotate(180deg);
+        width: 80px;
+        height: 15px;
+        opacity: 0.9;
+      }
+      transition: all 0.2s linear;
+      &:hover {
+        opacity: 0.5;
+      }
     }
   }
   .post-gallary-block {
@@ -75,18 +100,13 @@ export const CreateUpdatePostStyled = styled.form`
 
 const FormPost: React.FC = () => {
   const auth = useContext(AuthContext);
-  let list = [
-    "Будівництво",
-    "Ремонт квартир",
-    "Тульчин, Тульчинський р-н, Вінницька обл.",
-    "цфввцф",
-  ];
+  let listLocation = ["Тульчин, Тульчинський р-н, Вінницька обл."];
+  let list = ["Будівництво", "Ремонт квартир", "Проектування", "Дизайн"];
   return (
     <CreateUpdatePostStyled
       onSubmit={async (event) => {
         event.preventDefault();
         await store.createPost(auth?.token);
-        alert("Post created");
         store.cleanStore();
       }}
     >
@@ -149,7 +169,7 @@ const FormPost: React.FC = () => {
               />
             </InputComponentChildren>
             <div className="content">
-              {list
+              {listLocation
                 .filter((arg) =>
                   arg
                     .toLocaleLowerCase()
@@ -167,17 +187,24 @@ const FormPost: React.FC = () => {
                 ))}
             </div>
           </InputSelectDefault>
-          <InputComponentChildren
-            size={window.innerWidth <= 928 ? "small" : "medium"}
-          >
+          <InputSelectVal size={window.innerWidth <= 928 ? "small" : "medium"}>
             <input
-              name="price"
-              value={store.post.price}
+              type="number"
+              name="priceAmount"
+              value={store.post.priceAmount}
               onChange={(event) => store.addField(event)}
               placeholder="price"
               required
             />
-          </InputComponentChildren>
+            <input
+              type="text"
+              name="priceValue"
+              placeholder="грн/м2"
+              value={store.post.priceValue}
+              onChange={(event) => store.addField(event)}
+              required
+            />
+          </InputSelectVal>
         </div>
         <TextAreaStyled
           heightauto={window.innerWidth >= 572 ? true : false}

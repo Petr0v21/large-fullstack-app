@@ -367,7 +367,10 @@ const PostSmall: React.FC<{ post: any; user?: boolean }> = (props) => {
       >
         <h3 className="list-post-small-content-title">{props.post.title}</h3>
       </Link>
-      <h5 className="list-post-small-content-price">{props.post.price} / м2</h5>
+      <h5 className="list-post-small-content-price">
+        {props.post.price.amount}
+        {props.post.price.value}
+      </h5>
       <label className="list-post-small-content-owner">
         <img alt="owner" src={OwnerIcon} />
         {props.post.ownerName}

@@ -27,16 +27,13 @@ class AuthStore {
 
   async signUp() {
     try {
-      const data = await fetch(
-        "https://desolate-island-05088.herokuapp.com/api/auth/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(this.user),
-        }
-      )
+      const data = await fetch("http://localhost:7211/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(this.user),
+      })
         .then((info) => info.json())
         .then((info) => {
           if (info.ok) {
@@ -54,20 +51,20 @@ class AuthStore {
 
   async logIn() {
     try {
-      await fetch(
-        "https://desolate-island-05088.herokuapp.com/api/auth/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(this.user),
-        }
-      )
+      await fetch("http://localhost:7211/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(this.user),
+      })
         .then((response) => {
           return response.json();
         })
         .then((data) => {
+          if (data.message) {
+            alert(data.message);
+          }
           console.log(data);
           this.token = data.token;
           this.name = data.name;
@@ -79,16 +76,13 @@ class AuthStore {
 
   async checkEmail() {
     try {
-      await fetch(
-        "https://desolate-island-05088.herokuapp.com/api/auth/restorePassword/email",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(this.user),
-        }
-      )
+      await fetch("http://localhost:7211/api/auth/restorePassword/email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(this.user),
+      })
         .then((response) => {
           return response.json();
         })
@@ -110,7 +104,7 @@ class AuthStore {
   async restorePassword() {
     try {
       const data = await fetch(
-        "https://desolate-island-05088.herokuapp.com/api/auth/restorePassword/password",
+        "http://localhost:7211/api/auth/restorePassword/password",
         {
           method: "POST",
           headers: {

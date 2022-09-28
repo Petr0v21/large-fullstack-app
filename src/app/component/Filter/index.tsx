@@ -48,6 +48,11 @@ const FilterBlockStyled = styled.div`
     justify-content: space-between;
     gap: 1vw;
   }
+  @media (max-width: 1024px) {
+    .filter-select-block {
+      justify-content: center;
+    }
+  }
 
   @media (max-width: 620px) {
     label {
@@ -223,31 +228,38 @@ const SelectSmall = styled.div<InputProps>`
 
 const SortBlock: React.FC = () => {
   const [bigSearch, setBigSearch] = useState(false);
-  const [size, setSize] = useState({
-    height: window.innerHeight,
-    width: window.innerWidth,
-  });
+  // const [size, setSize] = useState({
+  //   height: window.innerHeight,
+  //   width: window.innerWidth,
+  // });
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setSize({
+  //       height: window.innerHeight,
+  //       width: window.innerWidth,
+  //     });
+  //   };
+  //   window.addEventListener("resize", handleResize);
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // });
+  const listLocation = ["Тульчин, Тульчинський р-н, Вінницька обл."];
+  const list = ["Будівництво", "Ремонт квартир", "Проектування", "Дизайн"];
+  const listPrice = ["До 100грн", "Від 100грн"];
+  const listOrder = ["По даті", "Від меншої ціни", "Від найбільшої ціни"];
   useEffect(() => {
-    const handleResize = () => {
-      setSize({
-        height: window.innerHeight,
-        width: window.innerWidth,
-      });
-    };
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  });
-  let list = [
-    "Будівництво",
-    "Ремонт квартир",
-    "Тульчин, Тульчинський р-н, Вінницька обл.",
-    "цфввцф",
-  ];
+    store.getTitles();
+  }, [store.filt.title]);
   return (
     <FilterBlockStyled>
-      <form>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          console.log(store.filt);
+          store.getList();
+        }}
+      >
         <div className="filter-input-block">
           <InputSelectDefault
             size={window.innerWidth < 1024 ? "small" : "medium"}
@@ -257,31 +269,26 @@ const SortBlock: React.FC = () => {
               img
             >
               <input
-                name="location"
-                value={store.filt.location}
-                onChange={(event) => store.addField(event)}
-                placeholder="location"
+                name="title"
+                value={store.filt.title}
+                onChange={async (event) => {
+                  store.addField(event);
+                }}
+                placeholder="Заголовок"
                 autoComplete="off"
-                required
               />
             </InputComponentChildren>
             <div className="content">
-              {list
-                .filter((arg) =>
-                  arg
-                    .toLocaleLowerCase()
-                    .includes(store.post.location.toLocaleLowerCase())
-                )
-                .map((arg) => (
-                  <p
-                    onClick={() => {
-                      store.selectField("location", arg);
-                    }}
-                    key={arg}
-                  >
-                    {arg}
-                  </p>
-                ))}
+              {store.listTitle.map((arg) => (
+                <p
+                  onClick={() => {
+                    store.selectField("title", arg.title);
+                  }}
+                  key={arg.title}
+                >
+                  {arg.title}
+                </p>
+              ))}
             </div>
           </InputSelectDefault>
           <InputSelectDefault
@@ -295,13 +302,12 @@ const SortBlock: React.FC = () => {
                 name="location"
                 value={store.filt.location}
                 onChange={(event) => store.addField(event)}
-                placeholder="location"
+                placeholder="Місцерозташування"
                 autoComplete="off"
-                required
               />
             </InputComponentChildren>
             <div className="content">
-              {list
+              {listLocation
                 .filter((arg) =>
                   arg
                     .toLocaleLowerCase()
@@ -332,12 +338,11 @@ const SortBlock: React.FC = () => {
             <SelectSmall size="small">
               <div className="select-input">
                 <input
-                  name="location"
-                  value={store.filt.location}
+                  name="category"
+                  value={store.filt.category}
                   onChange={(event) => store.addField(event)}
-                  placeholder="location"
+                  placeholder="Категорія"
                   autoComplete="off"
-                  required
                 />
                 <img
                   src={arrow}
@@ -355,7 +360,7 @@ const SortBlock: React.FC = () => {
                   .map((arg) => (
                     <p
                       onClick={() => {
-                        store.selectField("location", arg);
+                        store.selectField("category", arg);
                       }}
                       key={arg}
                     >
@@ -367,12 +372,11 @@ const SortBlock: React.FC = () => {
             <SelectSmall size="small">
               <div className="select-input">
                 <input
-                  name="location"
-                  value={store.filt.location}
+                  name="price"
+                  value={store.filt.price}
                   onChange={(event) => store.addField(event)}
-                  placeholder="location"
+                  placeholder="Ціна"
                   autoComplete="off"
-                  required
                 />
                 <img
                   src={arrow}
@@ -381,33 +385,26 @@ const SortBlock: React.FC = () => {
                 />
               </div>
               <div className="content">
-                {list
-                  .filter((arg) =>
-                    arg
-                      .toLocaleLowerCase()
-                      .includes(store.post.location.toLocaleLowerCase())
-                  )
-                  .map((arg) => (
-                    <p
-                      onClick={() => {
-                        store.selectField("location", arg);
-                      }}
-                      key={arg}
-                    >
-                      {arg}
-                    </p>
-                  ))}
+                {listPrice.map((arg) => (
+                  <p
+                    onClick={() => {
+                      store.selectField("price", arg);
+                    }}
+                    key={arg}
+                  >
+                    {arg}
+                  </p>
+                ))}
               </div>
             </SelectSmall>
             <SelectSmall size="small">
               <div className="select-input">
                 <input
-                  name="location"
-                  value={store.filt.location}
+                  name="order"
+                  value={store.filt.order}
                   onChange={(event) => store.addField(event)}
-                  placeholder="location"
+                  placeholder="По рейтингу"
                   autoComplete="off"
-                  required
                 />
                 <img
                   src={arrow}
@@ -416,57 +413,16 @@ const SortBlock: React.FC = () => {
                 />
               </div>
               <div className="content">
-                {list
-                  .filter((arg) =>
-                    arg
-                      .toLocaleLowerCase()
-                      .includes(store.post.location.toLocaleLowerCase())
-                  )
-                  .map((arg) => (
-                    <p
-                      onClick={() => {
-                        store.selectField("location", arg);
-                      }}
-                      key={arg}
-                    >
-                      {arg}
-                    </p>
-                  ))}
-              </div>
-            </SelectSmall>
-            <SelectSmall size="small">
-              <div className="select-input">
-                <input
-                  name="location"
-                  value={store.filt.location}
-                  onChange={(event) => store.addField(event)}
-                  placeholder="location"
-                  autoComplete="off"
-                  required
-                />
-                <img
-                  src={arrow}
-                  alt="img"
-                  onClick={() => console.log("Click")}
-                />
-              </div>
-              <div className="content">
-                {list
-                  .filter((arg) =>
-                    arg
-                      .toLocaleLowerCase()
-                      .includes(store.post.location.toLocaleLowerCase())
-                  )
-                  .map((arg) => (
-                    <p
-                      onClick={() => {
-                        store.selectField("location", arg);
-                      }}
-                      key={arg}
-                    >
-                      {arg}
-                    </p>
-                  ))}
+                {listOrder.map((arg) => (
+                  <p
+                    onClick={() => {
+                      store.selectField("order", arg);
+                    }}
+                    key={arg}
+                  >
+                    {arg}
+                  </p>
+                ))}
               </div>
             </SelectSmall>
           </div>

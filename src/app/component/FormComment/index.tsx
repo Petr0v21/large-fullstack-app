@@ -165,25 +165,24 @@ const FormCommentStyled = styled.form`
 const FormComment: React.FC<{ id: string }> = (props) => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
-  const [size, setSize] = useState({
-    height: window.innerHeight,
-    width: window.innerWidth,
-  });
+  // const [size, setSize] = useState({
+  //   height: window.innerHeight,
+  //   width: window.innerWidth,
+  // });
   const { id } = useParams<{ id: string }>();
-  console.log(id);
   const navigate = useNavigate();
-  useEffect(() => {
-    const handleResize = () => {
-      setSize({
-        height: window.innerHeight,
-        width: window.innerWidth,
-      });
-    };
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  });
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setSize({
+  //       height: window.innerHeight,
+  //       width: window.innerWidth,
+  //     });
+  //   };
+  //   window.addEventListener("resize", handleResize);
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // });
   return (
     <FormCommentStyled
       onSubmit={async (event) => {

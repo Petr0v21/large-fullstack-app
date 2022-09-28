@@ -12,8 +12,7 @@ import { useAuth } from "./hooks/auth.hook";
 import { useSelect } from "./hooks/selectPost.hook";
 import CreatePost from "./pages/CreatePost";
 
-/// 2 task лайки (напевно лише для зареєстрованих юзерів) (3)
-/// 3 task фільтр для списка оголошень (1)
+/// 2 task лайки (напевно лише для зареєстрованих юзерів) (3) (необов'язково)
 /// 6 task силки на іконках соц мереж (4)
 
 const App = () => {

@@ -1,11 +1,12 @@
 import { observer } from "mobx-react";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import store from "../../stores/selectedStore";
 import Header from "../../app/component/Header";
 import Footer from "../../app/component/Footer";
 import PostSmall from "../../app/component/PostSmall";
 import styled from "styled-components";
 import { device } from "../../app/styled-components/size";
+import PostsContext from "../../context/PostsContext";
 
 const SelectedPostsStyled = styled.div`
   display: flex;
@@ -98,9 +99,11 @@ const SelectedPostsStyled = styled.div`
 `;
 
 const FormPost: React.FC = () => {
+  const context = useContext(PostsContext);
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("selectedPosts") as string);
-    if (data && data.ids.length !== 0) store.getList(data.ids);
+    if (data && data.ids.length !== 0)
+      store.getList(data.ids, context?.deleteId);
   }, []);
   return (
     <>

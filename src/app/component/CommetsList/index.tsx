@@ -119,37 +119,6 @@ const CommentStyled = styled.div`
 
 const Comment: React.FC<{ comment: any }> = (props) => {
   const [rating, setRating] = useState(props.comment.rating);
-  // const [likes, setLikes] = useState(props.comment.likes);
-  // const changeHandlerLike = async () => {
-  //   try {
-  //     if (likes === props.comment.rating) {
-  //       setLikes(likes + 1);
-  //     } else {
-  //       setLikes(likes - 1);
-  //     }
-  //     await fetch(
-  //       `https://desolate-island-05088.herokuapp.com/api/post/comment/like`,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           id: props.comment._id,
-  //           likes: likes,
-  //         }),
-  //       }
-  //     )
-  //       .then((response) => {
-  //         return response.json();
-  //       })
-  //       .then((data) => {
-  //         console.log(data);
-  //       });
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // };
   return (
     <CommentStyled key={props.comment._id}>
       <div className="comment-main-content">

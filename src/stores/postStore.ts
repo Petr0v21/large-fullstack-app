@@ -4,7 +4,8 @@ class AuthStore {
   post = {
     title: "",
     description: "",
-    price: "",
+    priceAmount: "",
+    priceValue: "",
     category: "",
     location: "",
   };
@@ -13,7 +14,6 @@ class AuthStore {
     description: "It`s honestly",
   };
   files: any[] = [];
-
   url = {
     images: [],
   };
@@ -52,7 +52,8 @@ class AuthStore {
     this.post = {
       title: "",
       description: "",
-      price: "",
+      priceAmount: "",
+      priceValue: "",
       category: "",
       location: "",
     };
@@ -70,16 +71,13 @@ class AuthStore {
       for (let i = 0; i < this.files.length; i++) {
         form.append("image", this.files[i]);
       }
-      await fetch(
-        "https://desolate-island-05088.herokuapp.com/api/post/create",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: form,
-        }
-      )
+      await fetch("http://localhost:7211/api/post/create", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: form,
+      })
         .then((response) => {
           return response.json();
         })
@@ -94,7 +92,7 @@ class AuthStore {
 
   async getList() {
     try {
-      await fetch("https://desolate-island-05088.herokuapp.com/api/post/list", {
+      await fetch("http://localhost:7211/api/post/list", {
         method: "GET",
       })
         .then((response) => {
@@ -112,17 +110,14 @@ class AuthStore {
 
   async deletePost(token: any) {
     try {
-      await fetch(
-        "https://desolate-island-05088.herokuapp.com/api/post/delete",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ id: this.id }),
-        }
-      )
+      await fetch("http://localhost:7211/api/post/delete", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: this.id }),
+      })
         .then((response) => {
           return response.json();
         })

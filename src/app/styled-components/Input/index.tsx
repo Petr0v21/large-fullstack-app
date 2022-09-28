@@ -285,3 +285,76 @@ export const InputDefaultComponent: React.FC<InputProps> = (props) => {
 };
 
 export default InputDefaultComponent;
+
+export const InputSelectVal = styled.div<InputProps>`
+  max-width: ${(props) => (props.type === "percent" ? "80px" : "400px")};
+  font-size: 12px;
+  width: 200px;
+  input[type="number"] {
+    padding: 8px 2.4em 8px 10px;
+    width: 70%;
+  }
+  input[type="text"] {
+    cursor: pointer;
+    width: 30%;
+    border-left: 1px solid black;
+  }
+  ${(props) => {
+    switch (props.size) {
+      case "small":
+        return `
+    font-size: 12px;
+    width: 200px;
+    input {
+      padding: 8px;
+    }
+    padding: 0px;
+`;
+      case "medium":
+        return `
+    font-size: 14px;
+    input {
+      padding: 10px;
+    }
+    width: 300px;
+`;
+      case "large":
+        return `
+    font-size: 16px;
+    input {
+      padding: 12px;
+    }
+    width: 400px;
+`;
+    }
+  }}
+  ${(props) => (props.width ? `width: ${props.width};` : "")}
+display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  border: 1px solid ${(props) => (props.invalid ? "red" : "#afb1b6")};
+  border-radius: 8px;
+  &:focus-within {
+    border: 1px solid #6658d3;
+  }
+  input {
+    border: 0;
+    z-index: 0;
+    background-color: transparent;
+    font: inherit;
+    // padding: 0.25em 0;
+    &:focus {
+      outline: 0;
+    }
+    ${(props) => (props.invalid ? "color: red" : "")}
+    &::placeholder {
+      ${(props) => (props.invalid ? "color: red" : "")}
+    }
+  }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+`;
