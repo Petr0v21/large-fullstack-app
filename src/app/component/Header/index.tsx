@@ -392,7 +392,7 @@ const Header = (props: { back?: boolean }) => {
     return (
       <>
         <HeaderSmall back={props.back}>
-          <Link to="/">
+          <Link to="/" onClick={() => setOpenMenu(false)}>
             <h1>BilWork</h1>
           </Link>
           <img alt="menu" src={MenuIcon} onClick={() => setOpenMenu(true)} />
@@ -400,19 +400,23 @@ const Header = (props: { back?: boolean }) => {
         <HeaderSmallMenu>
           <img alt="close-menu" src={Home} onClick={() => setOpenMenu(false)} />
           {auth?.token ? (
-            <Link to="/profil" className="header-profil-small">
+            <Link
+              to="/profil"
+              className="header-profil-small"
+              onClick={() => setOpenMenu(false)}
+            >
               <label>{auth.userName}</label>
               <img alt="profil-icon" src={ProfilIconSmall} />
             </Link>
           ) : (
             <div className="header-menu-auth">
               <div className="header-menu-login">
-                <Link to="/profil">
+                <Link to="/profil" onClick={() => setOpenMenu(false)}>
                   <label>Увійти</label>
                 </Link>
               </div>
               <div className="header-menu-signUp">
-                <Link to="/profil/signup">
+                <Link to="/profil/signup" onClick={() => setOpenMenu(false)}>
                   <label>Зареєструватися</label>
                 </Link>
               </div>
@@ -425,6 +429,7 @@ const Header = (props: { back?: boolean }) => {
                 to="/"
                 onClick={() => {
                   navigate("/");
+                  setOpenMenu(false);
                   scroll.scrollTo(400, {
                     duration: 1000,
                     delay: 100,
@@ -437,16 +442,21 @@ const Header = (props: { back?: boolean }) => {
               </Link>
             </label>
             <label>
-              <Link to="/list">Список</Link>
+              <Link to="/list" onClick={() => setOpenMenu(false)}>
+                Список
+              </Link>
             </label>
             <label>
-              <Link to="/selected">Обрані</Link>
+              <Link to="/selected" onClick={() => setOpenMenu(false)}>
+                Обрані
+              </Link>
             </label>
             <label>
               <Link
                 to="/"
                 onClick={async () => {
                   navigate("/");
+                  setOpenMenu(false);
                   setTimeout(
                     () =>
                       scroll.scrollToBottom({
@@ -463,7 +473,9 @@ const Header = (props: { back?: boolean }) => {
             </label>
           </div>
           <h2>
-            <Link to="/">Bilwork</Link>
+            <Link to="/" onClick={() => setOpenMenu(false)}>
+              Bilwork
+            </Link>
           </h2>
         </HeaderSmallMenu>
       </>

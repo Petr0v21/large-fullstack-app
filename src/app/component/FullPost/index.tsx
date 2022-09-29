@@ -621,6 +621,24 @@ const Gallary = styled.div`
   }
 `;
 
+const LinkBack = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3vw 0;
+  gap: 1vw;
+  a {
+    cursor: pointer;
+    color: #253256;
+    transition: all 0.1s linear;
+    &:hover {
+      opacity: 0.6;
+      text-decoration: underline;
+    }
+  }
+`;
+
 const UsersPost: React.FC = () => {
   console.log("mount");
   const [slid, setSLid] = useState(1);
@@ -649,6 +667,13 @@ const UsersPost: React.FC = () => {
         </div>
       ) : (
         <>
+          <LinkBack>
+            <Link to="/">Головна</Link>
+            <label> / </label>
+            <Link to="/list">Список</Link>
+            <label> / </label>
+            <Link to="">{postStore.post.title}</Link>
+          </LinkBack>
           <ContentFullPost>
             <Gallary>
               <div className="post-gallary-img">
