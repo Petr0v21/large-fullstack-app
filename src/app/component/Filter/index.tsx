@@ -257,7 +257,7 @@ const SortBlock: React.FC = () => {
         onSubmit={(event) => {
           event.preventDefault();
           console.log(store.filt);
-          store.getList();
+          store.changePage(1);
         }}
       >
         <div className="filter-input-block">

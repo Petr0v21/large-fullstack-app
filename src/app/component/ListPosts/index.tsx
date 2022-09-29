@@ -217,7 +217,7 @@ const listPosts: React.FC = () => {
             }
           })}
         </div>
-        <h6>Оголошень знайдено: {store.list.length}</h6>
+        <h6>Оголошень знайдено: {store.count}</h6>
       </div>
       {store.loading.is() && (
         <div className="lds-facebook">
@@ -231,7 +231,14 @@ const listPosts: React.FC = () => {
       ))}
       <div className="Pages">
         {store.pages.length != 0 ? (
-          <img alt="arrow-left" className="arrow-left" src={ArrowPagin} />
+          <img
+            alt="arrow-left"
+            className="arrow-left"
+            src={ArrowPagin}
+            onClick={() =>
+              store.currentpage !== 1 && store.changePage(store.currentpage - 1)
+            }
+          />
         ) : undefined}
         {store.pages.map((page, index) => (
           <Pagination
@@ -244,7 +251,15 @@ const listPosts: React.FC = () => {
           </Pagination>
         ))}
         {store.pages.length != 0 ? (
-          <img alt="arrow-right" className="arrow-right" src={ArrowPagin} />
+          <img
+            alt="arrow-right"
+            className="arrow-right"
+            src={ArrowPagin}
+            onClick={() =>
+              store.currentpage !== store.pages.length &&
+              store.changePage(store.currentpage + 1)
+            }
+          />
         ) : undefined}
       </div>
     </ListPosts>

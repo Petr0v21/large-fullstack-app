@@ -21,7 +21,7 @@ class ListStore {
   };
   ownerPosts: any[] = [];
   currentpage: any = 1;
-
+  count = 0;
   filt = {
     title: "",
     location: "",
@@ -137,6 +137,7 @@ class ListStore {
             console.log(data);
             this.list = data.list;
             this.pages = data.pages;
+            this.count = data.count;
           });
         this.loading.off();
       } else {
@@ -160,6 +161,7 @@ class ListStore {
             console.log(data);
             this.list = data.list;
             this.pages = data.pages;
+            this.count = data.count;
           });
         this.loading.off();
       }
